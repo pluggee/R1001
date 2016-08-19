@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/sherif/git/R1001/pcb/R1001.sch</source>
+    <date>Fri 19 Aug 2016 04:05:29 PM PDT</date>
+    <tool>Eeschema 4.0.2+e4-6225~38~ubuntu14.04.1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>R1001: Dual Synchronized Stepper Motor Drivers</title>
+        <company>plugg.ee Labs</company>
+        <rev>1.0</rev>
+        <date>2016-06-11</date>
+        <source>R1001.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="J1">
+      <value>PCIEXPRESS-X1</value>
+      <footprint>Main:PCIEXPRESS-X1</footprint>
+      <fields>
+        <field name="Manufacturer">Amphenol FCI</field>
+        <field name="MPN">10018784-10200TLF</field>
+      </fields>
+      <libsource lib="connect" part="PCIEXPRESS-X1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575CF2BC</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>DRV8825</value>
+      <footprint>Main:SOP65P970X440X120-28NT518X310</footprint>
+      <fields>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="MPN">DRV8825PWPR</field>
+      </fields>
+      <libsource lib="analog" part="DRV8825"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575CF6DE</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>EFM8BB10F2G</value>
+      <footprint>Main:QFN50P300X300X75-20NT170X170</footprint>
+      <fields>
+        <field name="Manufacturer">Silicon Labs</field>
+        <field name="MPN">EFM8BB10F2G-A-QFN20R</field>
+      </fields>
+      <libsource lib="microcontroller" part="EFM8BB10F2G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575CF80C</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>0.01uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">50V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DBCA6</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>0.1uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">50V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DC2A4</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>0.1uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">50V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DC48B</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>0.1uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">50V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DC653</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>1M</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DCFC7</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>100uF</value>
+      <footprint>Capacitors_SMD:c_elec_8x6.5</footprint>
+      <libsource lib="device" part="CP1_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DDB86</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>1uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">6.3V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DEB5F</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>1M</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E0C2E</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>0.1uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">6.3V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E0D57</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E20A4</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E2158</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>CONN_01X04</value>
+      <footprint>Main:SOCKET254P-01X04</footprint>
+      <fields>
+        <field name="Manufacturer">TE Connectivity AMP Connectors</field>
+        <field name="MPN">3-644456-4</field>
+      </fields>
+      <libsource lib="connect" part="CONN_01X04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575DCECB</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>0.25</value>
+      <footprint>Resistors_SMD:R_2512</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E311F</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>0.25</value>
+      <footprint>Resistors_SMD:R_2512</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E3423</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>1uF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="VMAX">6.3V</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575E496D</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>575EE9E2</tstamp>
+    </comp>
+    <comp ref="JMASTER1">
+      <value>SOCKMALE_02x03</value>
+      <footprint>Main:SOCKET127P-02X03</footprint>
+      <fields>
+        <field name="Manufacturer">Sullins Connector Solutions</field>
+        <field name="MPN">GRPB032MWCN-RC</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <libsource lib="connect" part="SOCKMALE_02x03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5763976E</tstamp>
+    </comp>
+    <comp ref="JSLAVE1">
+      <value>SOCKMALE_02x03</value>
+      <footprint>Main:SOCKET127P-02X03</footprint>
+      <fields>
+        <field name="Manufacturer">Sullins Connector Solutions</field>
+        <field name="MPN">GRPB032MWCN-RC</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <libsource lib="connect" part="SOCKMALE_02x03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57639A01</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5763A883</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>74LS157</value>
+      <footprint>Main:SOP65P620X530X200-16</footprint>
+      <fields>
+        <field name="Manufacturer">NXP Semiconductors</field>
+        <field name="MPN">74LVC157APW,118</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <libsource lib="logic" part="74LS157"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57639E62</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57681F8C</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5768BB98</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5768BC41</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57684072</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57684078</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5768407E</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57683F65</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="logic" part="74LS157">
+      <description>Quad 2 to 1 line Multiplexer</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LS157</field>
+        <field name="Footprint">Main:SOP65P620X530X200-16</field>
+        <field name="Manufacturer">NXP Semiconductors</field>
+        <field name="MPN">74LVC157APW,118</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="S" type="input"/>
+        <pin num="2" name="1I0" type="input"/>
+        <pin num="3" name="1I1" type="input"/>
+        <pin num="4" name="1Y" type="output"/>
+        <pin num="5" name="2I0" type="input"/>
+        <pin num="6" name="2I1" type="input"/>
+        <pin num="7" name="2Y" type="output"/>
+        <pin num="8" name="GND" type="power_in"/>
+        <pin num="9" name="3Y" type="output"/>
+        <pin num="10" name="3I1" type="input"/>
+        <pin num="11" name="3I0" type="input"/>
+        <pin num="12" name="4Y" type="output"/>
+        <pin num="13" name="4I1" type="input"/>
+        <pin num="14" name="4I0" type="input"/>
+        <pin num="15" name="~E" type="input"/>
+        <pin num="16" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="connect" part="CONN_01X04">
+      <description>Connector 01x04</description>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_01X04</field>
+        <field name="Footprint">Main:SOCKET254P-01X04</field>
+        <field name="Manufacturer">TE Connectivity AMP Connectors</field>
+        <field name="MPN">3-644456-4</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="CP1_Small">
+      <description>Polarised capacitor</description>
+      <footprints>
+        <fp>CP*</fp>
+        <fp>Elko*</fp>
+        <fp>TantalC*</fp>
+        <fp>C*elec</fp>
+        <fp>c_elec*</fp>
+        <fp>SMD*_Pol</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP1_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="C_Small">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="analog" part="DRV8825">
+      <description>Stepper Motor Controller IC</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">DRV8825</field>
+        <field name="Footprint">Main:SOP65P970X440X120-28NT518X310</field>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="MPN">DRV8825PWPR</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="CP1" type="BiDi"/>
+        <pin num="2" name="CP2" type="BiDi"/>
+        <pin num="3" name="VCP" type="BiDi"/>
+        <pin num="4" name="VMA" type="power_in"/>
+        <pin num="5" name="AOUT1" type="output"/>
+        <pin num="6" name="ISENA" type="BiDi"/>
+        <pin num="7" name="AOUT2" type="output"/>
+        <pin num="8" name="BOUT2" type="output"/>
+        <pin num="9" name="ISENB" type="BiDi"/>
+        <pin num="10" name="BOUT1" type="output"/>
+        <pin num="11" name="VMB" type="power_in"/>
+        <pin num="12" name="AVREF" type="input"/>
+        <pin num="13" name="BVREF" type="input"/>
+        <pin num="14" name="GND" type="power_in"/>
+        <pin num="15" name="V3P3OUT" type="power_out"/>
+        <pin num="16" name="~RESET" type="input"/>
+        <pin num="17" name="~SLEEP" type="input"/>
+        <pin num="18" name="~FAULT" type="openCol"/>
+        <pin num="19" name="DECAY" type="input"/>
+        <pin num="20" name="DIR" type="input"/>
+        <pin num="21" name="~ENBL~" type="input"/>
+        <pin num="22" name="STEP" type="input"/>
+        <pin num="23" name="NC" type="NotConnected"/>
+        <pin num="24" name="MODE0" type="input"/>
+        <pin num="25" name="MODE1" type="input"/>
+        <pin num="26" name="MODE2" type="input"/>
+        <pin num="27" name="~HOME" type="openCol"/>
+        <pin num="28" name="GND" type="power_in"/>
+        <pin num="29" name="GND_PAD" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="microcontroller" part="EFM8BB10F2G">
+      <description>IC MCU 8BIT 2KB FLASH 20QFN</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">EFM8BB10F2G</field>
+        <field name="Footprint">Main:QFN50P300X300X75-20NT170X170</field>
+        <field name="Manufacturer">Silicon Labs</field>
+        <field name="MPN">EFM8BB10F2G-A-QFN20R</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P0.1" type="BiDi"/>
+        <pin num="2" name="P0.0" type="BiDi"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="VDD" type="power_in"/>
+        <pin num="5" name="~RST~/C2CK" type="input"/>
+        <pin num="6" name="C2D/P2.0" type="BiDi"/>
+        <pin num="7" name="P1.6" type="BiDi"/>
+        <pin num="8" name="P1.5" type="BiDi"/>
+        <pin num="9" name="P1.4" type="BiDi"/>
+        <pin num="10" name="P1.3" type="BiDi"/>
+        <pin num="11" name="P1.2" type="BiDi"/>
+        <pin num="12" name="GND" type="power_in"/>
+        <pin num="13" name="P1.1" type="BiDi"/>
+        <pin num="14" name="P1.0" type="BiDi"/>
+        <pin num="15" name="P0.7" type="BiDi"/>
+        <pin num="16" name="P0.6" type="BiDi"/>
+        <pin num="17" name="P0.5" type="BiDi"/>
+        <pin num="18" name="P0.4" type="BiDi"/>
+        <pin num="19" name="P0.3" type="BiDi"/>
+        <pin num="20" name="P0.2" type="BiDi"/>
+        <pin num="21" name="GND_TP" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="connect" part="PCIEXPRESS-X1">
+      <description>PCI Express x1 Board Edge</description>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">PCIEXPRESS-X1</field>
+        <field name="Footprint">Main:PCIEXPRESS-X1</field>
+        <field name="Manufacturer">Amphenol FCI</field>
+        <field name="MPN">10018784-10200TLF</field>
+      </fields>
+      <pins>
+        <pin num="A1" name="A1" type="BiDi"/>
+        <pin num="A2" name="A2" type="BiDi"/>
+        <pin num="A3" name="A3" type="BiDi"/>
+        <pin num="A4" name="A4" type="BiDi"/>
+        <pin num="A5" name="A5" type="BiDi"/>
+        <pin num="A6" name="A6" type="BiDi"/>
+        <pin num="A7" name="A7" type="BiDi"/>
+        <pin num="A8" name="A8" type="BiDi"/>
+        <pin num="A9" name="A9" type="BiDi"/>
+        <pin num="A10" name="A10" type="BiDi"/>
+        <pin num="A11" name="A11" type="BiDi"/>
+        <pin num="A12" name="A12" type="BiDi"/>
+        <pin num="A13" name="A13" type="BiDi"/>
+        <pin num="A14" name="A14" type="BiDi"/>
+        <pin num="A15" name="A15" type="BiDi"/>
+        <pin num="A16" name="A16" type="BiDi"/>
+        <pin num="A17" name="A17" type="BiDi"/>
+        <pin num="A18" name="A18" type="BiDi"/>
+        <pin num="B1" name="B1" type="BiDi"/>
+        <pin num="B2" name="B2" type="BiDi"/>
+        <pin num="B3" name="B3" type="BiDi"/>
+        <pin num="B4" name="B4" type="BiDi"/>
+        <pin num="B5" name="B5" type="BiDi"/>
+        <pin num="B6" name="B6" type="BiDi"/>
+        <pin num="B7" name="B7" type="BiDi"/>
+        <pin num="B8" name="B8" type="BiDi"/>
+        <pin num="B9" name="B9" type="BiDi"/>
+        <pin num="B10" name="B10" type="BiDi"/>
+        <pin num="B11" name="B11" type="BiDi"/>
+        <pin num="B12" name="B12" type="BiDi"/>
+        <pin num="B13" name="B13" type="BiDi"/>
+        <pin num="B14" name="B14" type="BiDi"/>
+        <pin num="B15" name="B15" type="BiDi"/>
+        <pin num="B16" name="B16" type="BiDi"/>
+        <pin num="B17" name="B17" type="BiDi"/>
+        <pin num="B18" name="B18" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R_Small">
+      <description>Resistor</description>
+      <footprints>
+        <fp>Resistor_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="connect" part="SOCKMALE_02x03">
+      <description>Connector 01x04</description>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">SOCKMALE_02x03</field>
+        <field name="Footprint">Main:SOCKET127P-02X03</field>
+        <field name="Manufacturer">Sullins Connector Solutions</field>
+        <field name="MPN">GRPB032MWCN-RC</field>
+        <field name="SKU">STUFF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>/usr/share/kicad/library/device.lib</uri>
+    </library>
+    <library logical="analog">
+      <uri>/home/sherif/git/KiCADLibs/sch/analog.lib</uri>
+    </library>
+    <library logical="connect">
+      <uri>/home/sherif/git/KiCADLibs/sch/connect.lib</uri>
+    </library>
+    <library logical="microcontroller">
+      <uri>/home/sherif/git/KiCADLibs/sch/microcontroller.lib</uri>
+    </library>
+    <library logical="logic">
+      <uri>/home/sherif/git/KiCADLibs/sch/logic.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="PX1_DIR">
+      <node ref="U2" pin="11"/>
+      <node ref="JMASTER1" pin="3"/>
+      <node ref="J1" pin="A12"/>
+    </net>
+    <net code="2" name="PX2_~ENBL">
+      <node ref="J1" pin="A13"/>
+      <node ref="U2" pin="5"/>
+      <node ref="JMASTER1" pin="2"/>
+    </net>
+    <net code="3" name="PX3_STEP">
+      <node ref="U2" pin="2"/>
+      <node ref="J1" pin="A14"/>
+      <node ref="JMASTER1" pin="1"/>
+    </net>
+    <net code="4" name="PX4">
+      <node ref="J1" pin="A15"/>
+    </net>
+    <net code="5" name="GND">
+      <node ref="C9" pin="2"/>
+      <node ref="U2" pin="15"/>
+      <node ref="U2" pin="14"/>
+      <node ref="U2" pin="13"/>
+      <node ref="J1" pin="B6"/>
+      <node ref="U3" pin="21"/>
+      <node ref="U3" pin="12"/>
+      <node ref="J1" pin="B8"/>
+      <node ref="J1" pin="B1"/>
+      <node ref="J1" pin="B2"/>
+      <node ref="J1" pin="B3"/>
+      <node ref="J1" pin="B4"/>
+      <node ref="J1" pin="B5"/>
+      <node ref="JMASTER1" pin="5"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="JSLAVE1" pin="5"/>
+      <node ref="R4" pin="2"/>
+      <node ref="J1" pin="B7"/>
+      <node ref="U1" pin="28"/>
+      <node ref="U1" pin="29"/>
+      <node ref="C1" pin="2"/>
+      <node ref="R5" pin="2"/>
+      <node ref="R9" pin="2"/>
+      <node ref="C3" pin="2"/>
+      <node ref="U1" pin="14"/>
+      <node ref="U3" pin="3"/>
+      <node ref="C14" pin="2"/>
+      <node ref="U2" pin="8"/>
+    </net>
+    <net code="6" name="HT">
+      <node ref="R3" pin="1"/>
+      <node ref="C3" pin="1"/>
+      <node ref="C5" pin="1"/>
+      <node ref="C7" pin="1"/>
+      <node ref="U1" pin="11"/>
+      <node ref="C12" pin="1"/>
+      <node ref="U1" pin="4"/>
+      <node ref="J1" pin="A6"/>
+      <node ref="J1" pin="A7"/>
+      <node ref="J1" pin="A8"/>
+      <node ref="J1" pin="A4"/>
+      <node ref="J1" pin="A1"/>
+      <node ref="J1" pin="A2"/>
+      <node ref="J1" pin="A3"/>
+      <node ref="J1" pin="A5"/>
+    </net>
+    <net code="7" name="C2D">
+      <node ref="R6" pin="2"/>
+      <node ref="U3" pin="6"/>
+      <node ref="J1" pin="B18"/>
+    </net>
+    <net code="8" name="SCLK">
+      <node ref="J1" pin="B17"/>
+    </net>
+    <net code="9" name="Net-(U2-Pad12)">
+      <node ref="U2" pin="12"/>
+    </net>
+    <net code="10" name="/S_DIR">
+      <node ref="U2" pin="10"/>
+      <node ref="JSLAVE1" pin="3"/>
+    </net>
+    <net code="11" name="/DIR">
+      <node ref="U2" pin="9"/>
+      <node ref="U1" pin="20"/>
+    </net>
+    <net code="12" name="/~ENBL">
+      <node ref="U2" pin="7"/>
+      <node ref="U1" pin="21"/>
+    </net>
+    <net code="13" name="/S_~ENBL">
+      <node ref="JSLAVE1" pin="2"/>
+      <node ref="U2" pin="6"/>
+    </net>
+    <net code="14" name="/STEP">
+      <node ref="U2" pin="4"/>
+      <node ref="U1" pin="22"/>
+    </net>
+    <net code="15" name="/S_STEP">
+      <node ref="U2" pin="3"/>
+      <node ref="JSLAVE1" pin="1"/>
+    </net>
+    <net code="16" name="+5V">
+      <node ref="J1" pin="A9"/>
+      <node ref="J1" pin="A11"/>
+      <node ref="J1" pin="A10"/>
+    </net>
+    <net code="17" name="ID3">
+      <node ref="J1" pin="B15"/>
+      <node ref="U3" pin="2"/>
+      <node ref="R10" pin="2"/>
+    </net>
+    <net code="18" name="+3V3">
+      <node ref="JMASTER1" pin="6"/>
+      <node ref="J1" pin="B10"/>
+      <node ref="J1" pin="B9"/>
+      <node ref="R7" pin="1"/>
+      <node ref="R10" pin="1"/>
+      <node ref="R14" pin="1"/>
+      <node ref="C1" pin="1"/>
+      <node ref="R6" pin="1"/>
+      <node ref="R16" pin="1"/>
+      <node ref="J1" pin="B11"/>
+      <node ref="R17" pin="1"/>
+      <node ref="R11" pin="1"/>
+      <node ref="U2" pin="16"/>
+      <node ref="U3" pin="4"/>
+      <node ref="R1" pin="1"/>
+      <node ref="R13" pin="1"/>
+      <node ref="R12" pin="1"/>
+    </net>
+    <net code="19" name="/~MCU_SLEEP">
+      <node ref="U1" pin="17"/>
+      <node ref="U3" pin="16"/>
+    </net>
+    <net code="20" name="/~MCU_DRESET">
+      <node ref="U1" pin="16"/>
+      <node ref="U3" pin="17"/>
+    </net>
+    <net code="21" name="/MCU_MODE2">
+      <node ref="U1" pin="26"/>
+      <node ref="U3" pin="10"/>
+    </net>
+    <net code="22" name="/MCU_MODE1">
+      <node ref="U1" pin="25"/>
+      <node ref="U3" pin="11"/>
+    </net>
+    <net code="23" name="/MCU_MODE0">
+      <node ref="U1" pin="24"/>
+      <node ref="U3" pin="13"/>
+    </net>
+    <net code="24" name="/MCU_PWMVREF">
+      <node ref="U3" pin="18"/>
+      <node ref="R2" pin="2"/>
+    </net>
+    <net code="25" name="/~D1_FAULT">
+      <node ref="R11" pin="2"/>
+      <node ref="U3" pin="15"/>
+      <node ref="U1" pin="18"/>
+    </net>
+    <net code="26" name="/~D1_HOME">
+      <node ref="R7" pin="2"/>
+      <node ref="U3" pin="9"/>
+      <node ref="U1" pin="27"/>
+    </net>
+    <net code="27" name="/MCU_DECAY">
+      <node ref="U1" pin="19"/>
+      <node ref="U3" pin="14"/>
+    </net>
+    <net code="28" name="Net-(U1-Pad23)">
+      <node ref="U1" pin="23"/>
+    </net>
+    <net code="29" name="/D1_CP2">
+      <node ref="U1" pin="2"/>
+      <node ref="C10" pin="1"/>
+    </net>
+    <net code="30" name="/D1_VCP">
+      <node ref="C12" pin="2"/>
+      <node ref="R3" pin="2"/>
+      <node ref="U1" pin="3"/>
+    </net>
+    <net code="31" name="/D1_CP1">
+      <node ref="C10" pin="2"/>
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="32" name="SDA">
+      <node ref="R16" pin="2"/>
+      <node ref="U3" pin="7"/>
+      <node ref="J1" pin="A17"/>
+    </net>
+    <net code="33" name="SCL">
+      <node ref="U3" pin="8"/>
+      <node ref="J1" pin="A16"/>
+      <node ref="R17" pin="2"/>
+    </net>
+    <net code="34" name="~MRESET">
+      <node ref="J1" pin="A18"/>
+      <node ref="U3" pin="5"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="35" name="RESRVRD0">
+      <node ref="J1" pin="B16"/>
+    </net>
+    <net code="36" name="ID2">
+      <node ref="R12" pin="2"/>
+      <node ref="U3" pin="1"/>
+      <node ref="J1" pin="B14"/>
+    </net>
+    <net code="37" name="ID1">
+      <node ref="U3" pin="20"/>
+      <node ref="J1" pin="B13"/>
+      <node ref="R13" pin="2"/>
+    </net>
+    <net code="38" name="ID0">
+      <node ref="U3" pin="19"/>
+      <node ref="R14" pin="2"/>
+      <node ref="J1" pin="B12"/>
+    </net>
+    <net code="39" name="Net-(JSLAVE1-Pad4)">
+      <node ref="JSLAVE1" pin="4"/>
+    </net>
+    <net code="40" name="Net-(JMASTER1-Pad4)">
+      <node ref="JMASTER1" pin="4"/>
+    </net>
+    <net code="41" name="/SLAVE_ENABLE">
+      <node ref="JSLAVE1" pin="6"/>
+      <node ref="R4" pin="1"/>
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="42" name="/D_VREF">
+      <node ref="U1" pin="12"/>
+      <node ref="U1" pin="13"/>
+      <node ref="C9" pin="1"/>
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="43" name="/D1_ISENA">
+      <node ref="R9" pin="1"/>
+      <node ref="U1" pin="6"/>
+    </net>
+    <net code="44" name="/D1_ISENB">
+      <node ref="U1" pin="9"/>
+      <node ref="R5" pin="1"/>
+    </net>
+    <net code="45" name="/D1_V3P3">
+      <node ref="U1" pin="15"/>
+      <node ref="C14" pin="1"/>
+    </net>
+    <net code="46" name="/D1_BOUT1">
+      <node ref="U1" pin="10"/>
+      <node ref="J2" pin="4"/>
+    </net>
+    <net code="47" name="/D1_BOUT2">
+      <node ref="U1" pin="8"/>
+      <node ref="J2" pin="3"/>
+    </net>
+    <net code="48" name="/D1_AOUT2">
+      <node ref="J2" pin="2"/>
+      <node ref="U1" pin="7"/>
+    </net>
+    <net code="49" name="/D1_AOUT1">
+      <node ref="J2" pin="1"/>
+      <node ref="U1" pin="5"/>
+    </net>
+  </nets>
+</export>
