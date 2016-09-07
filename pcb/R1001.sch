@@ -7,7 +7,6 @@ LIBS:microcontroller
 LIBS:conn
 LIBS:electromechanical
 LIBS:logic
-LIBS:R1001-cache
 EELAYER 25 0
 EELAYER END
 $Descr USLedger 17000 11000
@@ -532,11 +531,11 @@ Text Label 4850 7350 2    39   ~ 0
 ID0
 Text Label 4850 7250 2    39   ~ 0
 ID1
-Text Label 4850 7150 2    39   ~ 0
-ID2
-Text Label 4850 8450 2    39   ~ 0
-SCL
 Text Label 4850 8550 2    39   ~ 0
+ID2
+Text Label 4850 7050 2    39   ~ 0
+SCL
+Text Label 4850 7150 2    39   ~ 0
 SDA
 Text Label 4850 8350 2    28   ~ 0
 ~D1_HOME
@@ -1029,11 +1028,11 @@ Wire Wire Line
 Wire Wire Line
 	4350 7250 4850 7250
 Wire Wire Line
-	4350 7150 4850 7150
+	4350 8550 4850 8550
 Wire Wire Line
-	4850 8550 4350 8550
+	4850 7150 4350 7150
 Wire Wire Line
-	4350 8450 4850 8450
+	4350 7050 4850 7050
 Wire Wire Line
 	4350 8350 4850 8350
 Wire Wire Line
@@ -1213,10 +1212,10 @@ F 3 "" H 6750 1850 50  0000 C CNN
 	1    6750 1850
 	1    0    0    -1  
 $EndComp
-Text Label 4850 7050 2    39   ~ 0
+Text Label 4850 8450 2    39   ~ 0
 ID3
 Wire Wire Line
-	4350 7050 4850 7050
+	4350 8450 4850 8450
 Connection ~ 6000 2550
 Wire Wire Line
 	6000 1950 6000 2550
