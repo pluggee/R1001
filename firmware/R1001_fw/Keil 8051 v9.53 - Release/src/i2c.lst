@@ -1,0 +1,93 @@
+C51 COMPILER V9.53.0.0   I2C                                                               09/10/2016 11:07:48 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE I2C
+OBJECT MODULE PLACED IN .\src/i2c.OBJ
+COMPILER INVOKED BY: Z:\Applications\SimplicityStudio_v3\developer\toolchains\keil_8051\9.53\BIN\C51.exe /Users/sherifei
+                    -d/plugge_git/R1001/firmware/R1001_fw/src/i2c.c OMF2 SMALL DEBUG OBJECTEXTEND ROM(LARGE) WARNINGLEVEL(2) FLOATFUZZY(3) OP
+                    -TIMIZE(9,SPEED) DEFINE(NDEBUG=1) INTVECTOR(0X0000) INTPROMOTE INCDIR(/Users/sherifeid/plugge_git/R1001/firmware/R1001_fw
+                    -/inc;/Applications/SimplicityStudio_v3/developer/sdks/si8051/v3//Device/shared/si8051Base;/Applications/SimplicityStudio
+                    -_v3/developer/sdks/si8051/v3//Device/EFM8BB1;/Applications/SimplicityStudio_v3/developer/sdks/si8051/v3//Device/EFM8BB1/
+                    -inc) REGFILE(R1001_fw.ORC) PRINT(.\src/i2c.lst) COND PAGEWIDTH(120) PAGELENGTH(65) OBJECT(.\src/i2c.OBJ)
+
+line level    source
+
+   1          /*
+   2           * i2c.c
+   3           *
+   4           *  Created on: Sep 8, 2016
+   5           *      Author: sherifeid
+   6           */
+   7          
+   8          #include "i2c.h"
+   9          #include <SI_EFM8BB1_Register_Enums.h>                  // SFR declarations
+  10          #include "compiler_defs.h"
+  11          
+  12          
+  13          // ID pin definitions
+  14          SBIT(ID0, SFR_P0, 3);
+  15          SBIT(ID1, SFR_P0, 2);
+  16          SBIT(ID2, SFR_P0, 1);
+  17          SBIT(ID3, SFR_P0, 0);
+  18          
+  19          
+  20          void SetI2CSlaveAddress (void)
+  21          {
+  22   1              // This function reads the ID pins on the MCU to identify the slave address
+  23   1              unsigned char pid0, pid1, pid2, pid3, i2cid;
+  24   1      
+  25   1              // extract values from GPIO
+  26   1              if (ID0 == 0){
+  27   2                      pid0 = 0;
+  28   2              }
+  29   1              else{
+  30   2                      pid0 = 1;
+  31   2              }
+  32   1              if (ID1 == 0){
+  33   2                      pid1 = 0;
+  34   2              }
+  35   1              else{
+  36   2                      pid1 = 1;
+  37   2              }
+  38   1              if (ID2 == 0){
+  39   2                      pid2 = 0;
+  40   2              }
+  41   1              else{
+  42   2                      pid2 = 1;
+  43   2              }
+  44   1              if (ID3 == 0){
+  45   2                      pid3 = 0;
+  46   2              }
+  47   1              else{
+  48   2                      pid3 = 1;
+  49   2              }
+  50   1      
+  51   1              //i2cid = ID0 | (ID1 << 1) | (ID2 << 2) | (ID3 << 3) | 0x10;
+C51 COMPILER V9.53.0.0   I2C                                                               09/10/2016 11:07:48 PAGE 2   
+
+  52   1              i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x10;
+  53   1      
+  54   1      
+  55   1              // I2C addresses range from 0x10 to 0x1F depending on where the module is populated
+  56   1              SMB0ADR = SMB0ADR_GC__IGNORED | (i2cid << SMB0ADR_SLV__SHIFT);
+  57   1      }
+  58          
+  59          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     62    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,118 @@
+C51 COMPILER V9.53.0.0   DRV8825                                                           09/08/2016 16:16:51 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE DRV8825
+OBJECT MODULE PLACED IN .\src/drv8825.OBJ
+COMPILER INVOKED BY: Z:\Applications\SimplicityStudio_v3\developer\toolchains\keil_8051\9.53\BIN\C51.exe /Users/sherifei
+                    -d/plugge_git/R1001/firmware/R1001_fw/src/drv8825.c OMF2 SMALL DEBUG OBJECTEXTEND ROM(LARGE) WARNINGLEVEL(2) FLOATFUZZY(3
+                    -) OPTIMIZE(9,SPEED) DEFINE(NDEBUG=1) INTVECTOR(0X0000) INTPROMOTE INCDIR(/Users/sherifeid/plugge_git/R1001/firmware/R100
+                    -1_fw/inc;/Applications/SimplicityStudio_v3/developer/sdks/si8051/v3//Device/shared/si8051Base;/Applications/SimplicitySt
+                    -udio_v3/developer/sdks/si8051/v3//Device/EFM8BB1;/Applications/SimplicityStudio_v3/developer/sdks/si8051/v3//Device/EFM8
+                    -BB1/inc) REGFILE(R1001_fw.ORC) PRINT(.\src/drv8825.lst) COND PAGEWIDTH(120) PAGELENGTH(65) OBJECT(.\src/drv8825.OBJ)
+
+line level    source
+
+   1          /*
+   2           * drv8825.c
+   3           *
+   4           *  Created on: Sep 8, 2016
+   5           *      Author: sherifeid
+   6           */
+   7          
+   8          #include "drv8825.h"
+   9          #include <SI_EFM8BB1_Register_Enums.h>                  // SFR declarations
+  10          #include "compiler_defs.h"
+  11          #include <intrins.h>
+  12          
+  13          // This source includes all control functions for DRV8825 chip
+  14          
+  15          //-----------------------------------------------------------------------------
+  16          // DRV8825 Pin Declarations
+  17          //-----------------------------------------------------------------------------
+  18          
+  19          SBIT(DRESETB, SFR_P0, 5);                                               // Driver reset pin
+  20          SBIT(DSLEEPB, SFR_P0, 6);                                               // Driver sleep pin
+  21          SBIT(DECAY, SFR_P1, 0);                                                         // Driver decay pin
+  22          SBIT(MODE0, SFR_P1, 1);                                                         // Driver mode0 pin
+  23          SBIT(MODE1, SFR_P1, 2);                                                         // Driver mode1 pin
+  24          SBIT(MODE2, SFR_P1, 3);                                                         // Driver mode2 pin
+  25          
+  26          
+  27          void SetDecayFast (void)
+  28          {
+  29   1              // This function sets the decay mode to fast decay
+  30   1              DECAY = 1;                              // set to fast decay
+  31   1      }
+  32          
+  33          void ResetDriver (void)
+  34          {
+  35   1              unsigned i;     // for loop variable
+  36   1              // Reset pulse for the motor driver
+  37   1              DRESETB = 0;                    // set resetb to 0, get driver into reset
+  38   1              for (i=0; i<10000; i++)
+  39   1              {
+  40   2                      _nop_ ();                       // assembly NOP
+  41   2              }
+  42   1              DRESETB = 1;                    // set resetb to 1, get driver out of reset
+  43   1              DSLEEPB = 1;                    // get driver out of sleep mode
+  44   1      }
+  45          
+  46          void SetSteppingMode (unsigned char steps)
+  47          {
+  48   1              // this function assigns stepping modes
+  49   1              // steps        : stepping resolution in power of 2, stepping = 2^steps
+  50   1              // example, if steps = 4, stepping to 1/16
+  51   1              // if the input value of 'steps' in invalid (no 1,2,4,8,16,32) then it defaults to 1/32
+C51 COMPILER V9.53.0.0   DRV8825                                                           09/08/2016 16:16:51 PAGE 2   
+
+  52   1              switch(steps) {
+  53   2              case 0:
+  54   2                      MODE0 = 0;
+  55   2                      MODE1 = 0;
+  56   2                      MODE2 = 0;
+  57   2                      break;
+  58   2              case 1:
+  59   2                      MODE0 = 1;
+  60   2                      MODE1 = 0;
+  61   2                      MODE2 = 0;
+  62   2                      break;
+  63   2              case 2:
+  64   2                      MODE0 = 0;
+  65   2                      MODE1 = 1;
+  66   2                      MODE2 = 0;
+  67   2                      break;
+  68   2              case 3:
+  69   2                      MODE0 = 1;
+  70   2                      MODE1 = 1;
+  71   2                      MODE2 = 0;
+  72   2                      break;
+  73   2              case 4:
+  74   2                      MODE0 = 0;
+  75   2                      MODE1 = 0;
+  76   2                      MODE2 = 1;
+  77   2                      break;
+  78   2              default :
+  79   2                      // defaults to 1/32
+  80   2                      MODE0 = 1;
+  81   2                      MODE1 = 0;
+  82   2                      MODE2 = 1;
+  83   2              }
+  84   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     75    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
