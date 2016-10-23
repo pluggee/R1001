@@ -9,8 +9,13 @@
 #define DRV8825_H_
 
 // function declarations
-void SetDecayFast (void);
+void drv8825_init(void);
+
+void SetDecayFast (char);
 void ResetDriver (void);
-void SetSteppingMode (unsigned char steps);
+void SetSteppingMode (void);
+void SetDriveCurrent (void);
+void RefreshMCTL (void);
+void RefreshMSTAT (void);
 
 #endif /* DRV8825_H_ */
