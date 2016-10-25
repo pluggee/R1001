@@ -107,10 +107,10 @@ SI_INTERRUPT (SMBUS0_ISR, SMBUS0_IRQn)
 			// Slave Receiver: Stop received while either a Slave Receiver or
 			// Slave Transmitter
 			case SMB_SRSTO:
-                SMB0CN0_STO = 0;// SMB0CN0_STO must be cleared by software when
-                                // a STOP is detected as a slave
+                SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
+                                            // a STOP is detected as a slave
 
-                DATA_READY = 1;// Indicates end of transmission
+                DATA_READY = 1;             // Indicates end of transmission
                 break;
 
 			// Slave Transmitter: Data byte transmitted
@@ -133,8 +133,8 @@ SI_INTERRUPT (SMBUS0_ISR, SMBUS0_IRQn)
 			// data pending when a STOP is received from the master, so the SMB0CN0_TXMODE
 			// bit is cleared and the slave goes to the SRSTO state.
 			case SMB_STSTO:
-                SMB0CN0_STO = 0;// SMB0CN0_STO must be cleared by software when
-                                // a STOP is detected as a slave
+                SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
+                                            // a STOP is detected as a slave
                 break;
 
           // Default: all other cases undefined

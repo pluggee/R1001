@@ -15,12 +15,9 @@
 //-----------------------------------------------------------------------------
 // Global Constants
 //-----------------------------------------------------------------------------
-//#define PLATFORM    0x01        // platform ID, 0x01 for R1000A
-#define PLATFORM    0xae        // platform ID, 0x01 for R1000A
-//#define DEVID       0x01        // device ID, 0x01 for R1001 stepper motor driver
-#define DEVID       0xc0        // device ID, 0x01 for R1001 stepper motor driver
-//#define FWVER       0x01        // firmware release
-#define FWVER       0xee        // firmware release
+#define PLATFORM    0x01        // platform ID, 0x01 for R1000A
+#define DEVID       0x01        // device ID, 0x01 for R1001 stepper motor driver
+#define FWVER       0x01        // firmware build
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
@@ -65,17 +62,17 @@ int main (void)
 		// now we look at the contents of the data in the buffer and act accordingly
 		switch(SMB_DATA_IN[0]){
 		case 0x01:
-			// Return the module ID
+			// Return platform ID
 			// Prepare buffer with ID string
 			SMB_DATA_OUT[0] = PLATFORM;     // Platform ID
 			break;
 		case 0x02:
-			// Return the module ID
+			// Return device ID
 			// Prepare buffer with ID string
 			SMB_DATA_OUT[0] = DEVID;        // device ID
 			break;
 		case 0x03:
-			// Return the module ID
+			// Return firmware VER
 			// Prepare buffer with ID string
 			SMB_DATA_OUT[0] = FWVER;        // firmware version
 			break;
@@ -88,9 +85,13 @@ int main (void)
 			// This is a command to change stepping resolution, set it to the value stored in SMB_DATA_IN[1]
 		    if (writelen > 1){
 			    StepRes = SMB_DATA_IN[1];       // store new value to internal variable
+			    if ((StepRes > 5) || (StepRes < 0)) {       // Limit step res to the proper range
+                    StepRes = 5;
+                }
 			    SetSteppingMode();              // apply new stepping resolution setting
 			}
 		    SMB_DATA_OUT[0] = StepRes;
+		    // limit the range of StepRes
 			break;
 		case 0x21:
 		    // here we check if writing to IDRVL and IDRVH
@@ -134,12 +135,9 @@ int main (void)
 		    RefreshMSTAT();
             SMB_DATA_OUT[0] = MSTAT;             // place refreshed MCTL value in output buffer
             break;
-		case 0x25:
-		    // FIXME, experimental, remove this
-		    SMB_DATA_OUT[0] = PCA0CPH0;
-		    break;
 		default:
 			break;
 		}
+		writelen = 0;                           // reset writelen counter
    }                             
 }

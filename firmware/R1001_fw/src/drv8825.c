@@ -57,7 +57,7 @@ void ResetDriver (void)
 		_nop_ ();			// assembly NOP
 	}
 	DRESETB = 1;			// set resetb to 1, get driver out of reset
-	DSLEEPB = 1;			// get driver out of sleep mode
+//	DSLEEPB = 1;			// get driver out of sleep mode
 }
 
 void SetSteppingMode (void)
@@ -103,21 +103,17 @@ void SetSteppingMode (void)
 void SetDriveCurrent (void)
 {
     // This function sets the drive current based on that values in IL and IH
-//    unsigned int drivecurrent;
-    float drivecurrent;
-//    drivecurrent = (unsigned int)IDRVH * 256 + (unsigned int)IDRVL;
-    drivecurrent = (float)IDRVH * 256 + (float)IDRVL;
+    unsigned long drivecurrent;
+    drivecurrent = (unsigned long)IDRVH * 256 + (unsigned long)IDRVL;
     if (drivecurrent > 2000){
         // limit drive current to 2A (2000mA)
         drivecurrent = 2000;
     }
     // current = 2A when vout = 2.5V
     // VDD = 3.3V, so max pwm value is 194
-    PCA0CPH0 = (char)(194*drivecurrent/2000);                   // set PWMVREF value
 
-    // FIXME Next steps, set static value to 194, see what comes out
-    // FIXME set static value to 128, see what comes out
-    // if it's not correct then the problem is with the division operation
+//    PCA0CPH0 = (char)((198*drivecurrent) >> 11);                   // set PWMVREF value, ideal 3.3V calculated value
+    PCA0CPH0 = (char)((202*drivecurrent) >> 11);                   // set PWMVREF value, compensated after measurement
 }
 
 void RefreshMCTL (void)
