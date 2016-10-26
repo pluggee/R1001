@@ -1,4 +1,4 @@
-LX51 LINKER/LOCATER V4.66.30.0                                                          10/24/2016  22:17:21  PAGE 1
+LX51 LINKER/LOCATER V4.66.30.0                                                          10/25/2016  20:55:04  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.30.0, INVOKED BY:
@@ -64,7 +64,7 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 
 * * * * * * * * * * *   D A T A   M E M O R Y   * * * * * * * * * * * * *
 000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 2
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 2
 
 
 000008H   00001BH   000014H   BYTE   UNIT     DATA           ?DT?INTERRUPTS
@@ -129,7 +129,7 @@ INTERRUPTS                                    ----- -----  ----- -----
 
 *** NEW ROOT ********************************
 
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 3
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 3
 
 
 ADC0EOC_ISR/INTERRUPTS                        ----- -----  0021H 0024H
@@ -194,7 +194,7 @@ TIMER16_2_ENTER_DEFAULTMODE_FROM_RESET/I+     ----- -----  ----- -----
 ... NITDEVICE
 
 TIMER_SETUP_0_ENTER_DEFAULTMODE_FROM_RES+     ----- -----  ----- -----
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 4
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 4
 
 
 ... ET/INITDEVICE
@@ -259,7 +259,7 @@ PUBLIC SYMBOLS OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       01000000H   CODE     NEAR LAB  ?C_STARTUP
       0100063AH   CODE     ---       _SetDecayFast
 *SFR* 000000E0H   DATA     BYTE      ACC
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 5
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 5
 
 
 *SFR* 000000E0H   DATA     BIT       ACC_ACC0
@@ -324,7 +324,7 @@ PUBLIC SYMBOLS OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000020H.0 BIT      BIT       DATA_READY
 *SFR* 00000090H   DATA     BIT       DECAY
 *SFR* 000000ADH   DATA     BYTE      DERIVID
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 6
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 6
 
 
 *SFR* 000000B5H   DATA     BYTE      DEVICEID
@@ -389,7 +389,7 @@ PUBLIC SYMBOLS OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
 *SFR* 000000A4H   DATA     BYTE      P0MDOUT
 *SFR* 000000D4H   DATA     BYTE      P0SKIP
 *SFR* 00000090H   DATA     BYTE      P1
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 7
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 7
 
 
 *SFR* 00000090H   DATA     BIT       P1_B0
@@ -454,7 +454,7 @@ PUBLIC SYMBOLS OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
 *SFR* 000000D0H.3 DATA     BIT       PSW_RS0
 *SFR* 000000D0H.4 DATA     BIT       PSW_RS1
 *SFR* 000000D1H   DATA     BYTE      REF0CN
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 8
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 8
 
 
       0100051EH   CODE     ---       RefreshMCTL
@@ -519,7 +519,7 @@ PUBLIC SYMBOLS OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
 *SFR* 00000088H.4 DATA     BIT       TCON_TR0
 *SFR* 00000088H.6 DATA     BIT       TCON_TR1
       00000018H   DATA     CHAR      temp_val
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 9
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 9
 
 
 *SFR* 0000008CH   DATA     BYTE      TH0
@@ -584,7 +584,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       0100064BH   PUBLIC    CODE     ---       WDT_0_enter_DefaultMode_from_RESET
       01000558H   PUBLIC    CODE     ---       enter_DefaultMode_from_RESET
       000000A2H   SFRSYM    DATA     BYTE      SPI0CKR
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 10
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 10
 
 
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -649,7 +649,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       0000008EH   SFRSYM    DATA     BYTE      CKCON0
       000000E0H.1 SFRSYM    DATA     BIT       ACC_ACC1
       000000C9H   SFRSYM    DATA     BYTE      REG0CN
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 11
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 11
 
 
       000000DDH   SFRSYM    DATA     BYTE      CRC0IN
@@ -714,7 +714,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000092H   SFRSYM    DATA     WORD      TMR3RL
       000000D8H   SFRSYM    DATA     BYTE      PCA0CN0
       000000E0H   SFRSYM    DATA     BYTE      ACC
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 12
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 12
 
 
       000000FBH   SFRSYM    DATA     WORD      PCA0CP0
@@ -779,7 +779,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000C8H.6 SFRSYM    DATA     BIT       TMR2CN0_TF2L
       00000098H.1 SFRSYM    DATA     BIT       SCON0_TI
       000000E8H   SFRSYM    DATA     BIT       ADC0CN0_ADCM0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 13
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 13
 
 
       000000C6H   SFRSYM    DATA     BYTE      ADC0LTH
@@ -844,7 +844,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       01000573H   LINE      CODE     ---       #33
       01000576H   LINE      CODE     ---       #34
       01000579H   LINE      CODE     ---       #35
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 14
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 14
 
 
       0100057CH   LINE      CODE     ---       #36
@@ -909,7 +909,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
 
       010005D8H   BLOCK     CODE     ---       LVL=0
       010005D8H   LINE      CODE     ---       #277
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 15
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 15
 
 
       010005D8H   LINE      CODE     ---       #283
@@ -974,7 +974,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       01000621H   LINE      CODE     ---       #564
       01000624H   LINE      CODE     ---       #573
       ---         BLOCKEND  ---      ---       LVL=0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 16
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 16
 
 
 
@@ -1039,7 +1039,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000C5H   SFRSYM    DATA     WORD      ADC0LT
       00000098H.5 SFRSYM    DATA     BIT       SCON0_MCE
       000000F0H.7 SFRSYM    DATA     BIT       B_B7
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 17
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 17
 
 
       000000E1H   SFRSYM    DATA     BYTE      XBR0
@@ -1104,7 +1104,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000A8H.2 SFRSYM    DATA     BIT       IE_EX1
       00000098H.7 SFRSYM    DATA     BIT       SCON0_SMODE
       000000B5H   SFRSYM    DATA     BYTE      DEVICEID
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 18
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 18
 
 
       000000A9H   SFRSYM    DATA     BYTE      CLKSEL
@@ -1169,7 +1169,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000C8H.3 SFRSYM    DATA     BIT       TMR2CN0_T2SPLIT
       000000D0H.6 SFRSYM    DATA     BIT       PSW_AC
       000000F8H   SFRSYM    DATA     BYTE      SPI0CN0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 19
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 19
 
 
       000000C7H   SFRSYM    DATA     BYTE      HFO0CAL
@@ -1234,7 +1234,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       0100059BH   BLOCK     CODE     ---       LVL=0
       ---         BLOCKEND  ---      ---       LVL=0
 
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 20
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 20
 
 
       010003FCH   BLOCK     CODE     ---       LVL=0
@@ -1299,7 +1299,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       01000472H   LINE      CODE     ---       #149
       01000472H   LINE      CODE     ---       #152
       01000472H   LINE      CODE     ---       #153
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 21
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 21
 
 
       01000474H   LINE      CODE     ---       #154
@@ -1364,7 +1364,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000A5H   SFRSYM    DATA     BYTE      P1MDOUT
       000000E8H.5 SFRSYM    DATA     BIT       ADC0CN0_ADINT
       000000CBH   SFRSYM    DATA     BYTE      TMR2RLH
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 22
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 22
 
 
       000000A6H   SFRSYM    DATA     BYTE      P2MDOUT
@@ -1429,7 +1429,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000094H   SFRSYM    DATA     WORD      TMR3
       000000C0H.3 SFRSYM    DATA     BIT       SMB0CN0_ACKRQ
       000000FFH   SFRSYM    DATA     BYTE      VDM0CN
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 23
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 23
 
 
       000000F1H   SFRSYM    DATA     BYTE      P0MDIN
@@ -1494,7 +1494,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       0000008BH   SFRSYM    DATA     BYTE      TL1
       000000F9H   SFRSYM    DATA     BYTE      PCA0L
       000000C0H   SFRSYM    DATA     BIT       SMB0CN0_SI
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 24
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 24
 
 
       000000D0H.1 SFRSYM    DATA     BIT       PSW_F1
@@ -1559,7 +1559,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000B8H.6 SFRSYM    DATA     BIT       IP_PSPI0
       0000009CH   SFRSYM    DATA     BYTE      PCA0CLR
       000000C8H   SFRSYM    DATA     BYTE      TMR2CN0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 25
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 25
 
 
       00000091H   SFRSYM    DATA     BYTE      TMR3CN0
@@ -1624,7 +1624,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       010002F6H   LINE      CODE     ---       #81
       010002F9H   LINE      CODE     ---       #82
       010002FBH   LINE      CODE     ---       #83
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 26
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 26
 
 
       010002FBH   LINE      CODE     ---       #86
@@ -1689,7 +1689,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000000H   SYMBOL    NUMBER   ---       PBPSTACK
       00000100H   SYMBOL    NUMBER   ---       PBPSTACKTOP
       00000000H   SYMBOL    NUMBER   ---       PDATALEN
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 27
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 27
 
 
       00000000H   SYMBOL    NUMBER   ---       PDATASTART
@@ -1754,7 +1754,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000093H   SFRSYM    DATA     BYTE      TMR3RLH
       000000F3H   SFRSYM    DATA     BYTE      EIP1
       00000098H.2 SFRSYM    DATA     BIT       SCON0_RB8
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 28
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 28
 
 
       000000CAH   SFRSYM    DATA     BYTE      TMR2RLL
@@ -1819,7 +1819,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000ACH   SFRSYM    DATA     BYTE      SMB0TC
       000000F2H   SFRSYM    DATA     BYTE      P1MDIN
       000000C0H.4 SFRSYM    DATA     BIT       SMB0CN0_STO
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 29
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 29
 
 
       000000FEH   SFRSYM    DATA     BYTE      P0MASK
@@ -1884,7 +1884,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000080H   SFRSYM    DATA     BIT       P0_B0
       000000B8H   SFRSYM    DATA     BIT       IP_PX0
       00000090H   SFRSYM    DATA     BIT       P1_B0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 30
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 30
 
 
       00000080H.1 SFRSYM    DATA     BIT       P0_B1
@@ -1949,7 +1949,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000B8H.6 SFRSYM    DATA     BIT       IP_PSPI0
       0000009CH   SFRSYM    DATA     BYTE      PCA0CLR
       000000C8H   SFRSYM    DATA     BYTE      TMR2CN0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 31
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 31
 
 
       00000091H   SFRSYM    DATA     BYTE      TMR3CN0
@@ -2014,7 +2014,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       01000003H   LINE      CODE     ---       #63
       01000003H   LINE      CODE     ---       #64
       01000003H   LINE      CODE     ---       #69
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 32
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 32
 
 
       01000015H   LINE      CODE     ---       #70
@@ -2079,7 +2079,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       01000534H   LINE      CODE     ---       #138
       01000534H   LINE      CODE     ---       #141
       0100053CH   LINE      CODE     ---       #144
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 33
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 33
 
 
       0100053FH   LINE      CODE     ---       #150
@@ -2144,7 +2144,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000A5H   SFRSYM    DATA     BYTE      P1MDOUT
       000000E8H.5 SFRSYM    DATA     BIT       ADC0CN0_ADINT
       000000CBH   SFRSYM    DATA     BYTE      TMR2RLH
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 34
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 34
 
 
       000000A6H   SFRSYM    DATA     BYTE      P2MDOUT
@@ -2209,7 +2209,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       00000094H   SFRSYM    DATA     WORD      TMR3
       000000C0H.3 SFRSYM    DATA     BIT       SMB0CN0_ACKRQ
       000000FFH   SFRSYM    DATA     BYTE      VDM0CN
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 35
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 35
 
 
       000000F1H   SFRSYM    DATA     BYTE      P0MDIN
@@ -2274,7 +2274,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       0000008AH   SFRSYM    DATA     BYTE      TL0
       000000F8H.1 SFRSYM    DATA     BIT       SPI0CN0_TXBMT
       000000D0H.5 SFRSYM    DATA     BIT       PSW_F0
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 36
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 36
 
 
       000000A8H.6 SFRSYM    DATA     BIT       IE_ESPI0
@@ -2339,7 +2339,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       000000E8H.4 SFRSYM    DATA     BIT       ADC0CN0_ADBUSY
       000000D6H   SFRSYM    DATA     BYTE      SMB0ADM
       000000C5H   SFRSYM    DATA     BYTE      ADC0LTL
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 37
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 37
 
 
       000000F8H.5 SFRSYM    DATA     BIT       SPI0CN0_MODF
@@ -2404,7 +2404,7 @@ SYMBOL TABLE OF MODULE:  R1001_FW.OMF.CRBUILD (INITDEVICE)
       010004F9H   LINE      CODE     ---       #42
       010004FBH   LINE      CODE     ---       #43
       010004FBH   LINE      CODE     ---       #44
-LX51 LINKER/LOCATER V4.66.30.0                                                        10/24/2016  22:17:21  PAGE 38
+LX51 LINKER/LOCATER V4.66.30.0                                                        10/25/2016  20:55:04  PAGE 38
 
 
       010004FEH   LINE      CODE     ---       #45

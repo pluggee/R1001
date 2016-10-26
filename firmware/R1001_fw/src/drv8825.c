@@ -49,7 +49,7 @@ void SetDecayFast (char val)
 
 void ResetDriver (void)
 {
-	unsigned i; 	// for loop variable
+	unsigned int i; 	    // for loop variable
 	// Reset pulse for the motor driver
 	DRESETB = 0;			// set resetb to 0, get driver into reset
 	for (i=0; i<10000; i++)
@@ -182,7 +182,7 @@ void RefreshMSTAT (void)
     }
 
     if (HOMEB == 0){
-        MSTAT |= 0x20;                                  // set home bit
+        MSTAT |= 0x02;                                  // set home bit
     }
 }
 
@@ -191,7 +191,7 @@ void drv8825_init(void)
     // this function loads the default values and initializes the driver
 
     // initialize MCTL
-    MCTL = 0x81;
+    MCTL = 0x81;                    // default value, reset driver and fast decay
     RefreshMCTL();
 
     // set stepping resolution

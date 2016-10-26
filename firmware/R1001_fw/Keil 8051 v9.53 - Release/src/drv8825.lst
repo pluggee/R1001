@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/24/2016 22:17:21 PAGE 1   
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE DRV8825
@@ -63,9 +63,9 @@ line level    source
   49          
   50          void ResetDriver (void)
   51          {
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/24/2016 22:17:21 PAGE 2   
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 2   
 
-  52   1              unsigned i;     // for loop variable
+  52   1              unsigned int i;             // for loop variable
   53   1              // Reset pulse for the motor driver
   54   1              DRESETB = 0;                    // set resetb to 0, get driver into reset
   55   1              for (i=0; i<10000; i++)
@@ -128,7 +128,7 @@ line level    source
  112   1          // current = 2A when vout = 2.5V
  113   1          // VDD = 3.3V, so max pwm value is 194
  114   1      
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/24/2016 22:17:21 PAGE 3   
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 3   
 
  115   1      //    PCA0CPH0 = (char)((198*drivecurrent) >> 11);                   // set PWMVREF value, ideal 3.3V calc
              -ulated value
@@ -193,7 +193,7 @@ line level    source
  173   1      }
  174          
  175          void RefreshMSTAT (void)
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/24/2016 22:17:21 PAGE 4   
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 4   
 
  176          {
  177   1          // this function refreshes MSTAT register
@@ -204,7 +204,7 @@ line level    source
  182   2          }
  183   1      
  184   1          if (HOMEB == 0){
- 185   2              MSTAT |= 0x20;                                  // set home bit
+ 185   2              MSTAT |= 0x02;                                  // set home bit
  186   2          }
  187   1      }
  188          
@@ -213,7 +213,7 @@ line level    source
  191   1          // this function loads the default values and initializes the driver
  192   1      
  193   1          // initialize MCTL
- 194   1          MCTL = 0x81;
+ 194   1          MCTL = 0x81;                    // default value, reset driver and fast decay
  195   1          RefreshMCTL();
  196   1      
  197   1          // set stepping resolution
