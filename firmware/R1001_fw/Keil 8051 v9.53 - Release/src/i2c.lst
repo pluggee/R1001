@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   I2C                                                               10/25/2016 20:55:04 PAGE 1   
+C51 COMPILER V9.53.0.0   I2C                                                               10/25/2016 21:14:30 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE I2C
@@ -63,7 +63,7 @@ line level    source
   49   2              }
   50   1      
   51   1              //i2cid = ID0 | (ID1 << 1) | (ID2 << 2) | (ID3 << 3) | 0x10;
-C51 COMPILER V9.53.0.0   I2C                                                               10/25/2016 20:55:04 PAGE 2   
+C51 COMPILER V9.53.0.0   I2C                                                               10/25/2016 21:14:30 PAGE 2   
 
   52   1              i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x10;
   53   1      

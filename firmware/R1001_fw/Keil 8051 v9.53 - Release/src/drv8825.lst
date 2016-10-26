@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 1   
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 21:14:30 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE DRV8825
@@ -63,7 +63,7 @@ line level    source
   49          
   50          void ResetDriver (void)
   51          {
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 2   
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 21:14:30 PAGE 2   
 
   52   1              unsigned int i;             // for loop variable
   53   1              // Reset pulse for the motor driver
@@ -124,111 +124,113 @@ line level    source
  108   1          if (drivecurrent > 2000){
  109   2              // limit drive current to 2A (2000mA)
  110   2              drivecurrent = 2000;
- 111   2          }
- 112   1          // current = 2A when vout = 2.5V
- 113   1          // VDD = 3.3V, so max pwm value is 194
- 114   1      
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 3   
+ 111   2              IDRVH = 0x07;               // also update internal IDRVH register
+ 112   2              IDRVL = 0xD0;               // also update internal IDRVL register
+ 113   2          }
+ 114   1          // current = 2A when vout = 2.5V
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 21:14:30 PAGE 3   
 
- 115   1      //    PCA0CPH0 = (char)((198*drivecurrent) >> 11);                   // set PWMVREF value, ideal 3.3V calc
+ 115   1          // VDD = 3.3V, so max pwm value is 194
+ 116   1      
+ 117   1      //    PCA0CPH0 = (char)((198*drivecurrent) >> 11);                   // set PWMVREF value, ideal 3.3V calc
              -ulated value
- 116   1          PCA0CPH0 = (char)((202*drivecurrent) >> 11);                   // set PWMVREF value, compensated after
+ 118   1          PCA0CPH0 = (char)((202*drivecurrent) >> 11);                   // set PWMVREF value, compensated after
              - measurement
- 117   1      }
- 118          
- 119          void RefreshMCTL (void)
- 120          {
- 121   1          // This function read the value of MCTL, executes the value and refreshes it
- 122   1          // first we check for a reset condition
- 123   1          if ((MCTL & 0x80) != 0){
- 124   2              // reset condition initiates here
- 125   2              ResetDriver();
- 126   2              // set reset flag to zero in MCTL
- 127   2              MCTL &= 0x7F;
- 128   2          }
- 129   1      
- 130   1          // set sleep pin
- 131   1          if ((MCTL & 0x04) == 0){
- 132   2              // set sleep# pin to 1
- 133   2              DSLEEPB = 1;
- 134   2          }
- 135   1          else{
- 136   2              // set sleep# pin to 0
- 137   2              DSLEEPB = 0;
- 138   2          }
- 139   1      
- 140   1          // look at decay pins
- 141   1          if ((MCTL & 0x02) == 1){
- 142   2              // mixed decay bit is set
- 143   2              // set decay pin P1.0 to open-drain, keep other values to reset state
- 144   2              P1MDOUT = P1MDOUT_B0__OPEN_DRAIN | P1MDOUT_B1__PUSH_PULL
- 145   2                      | P1MDOUT_B2__PUSH_PULL | P1MDOUT_B3__PUSH_PULL
- 146   2                      | P1MDOUT_B4__OPEN_DRAIN | P1MDOUT_B5__OPEN_DRAIN
- 147   2                      | P1MDOUT_B6__OPEN_DRAIN;
- 148   2      
- 149   2              // set P1.0 pin to high, make sure it's not driving low
- 150   2              DECAY = 0;
- 151   2          }
- 152   1          else{
- 153   2      
- 154   2              // P1.0 to push-pull, keep other values to reset state
- 155   2              P1MDOUT = P1MDOUT_B0__PUSH_PULL | P1MDOUT_B1__PUSH_PULL
- 156   2                      | P1MDOUT_B2__PUSH_PULL | P1MDOUT_B3__PUSH_PULL
- 157   2                      | P1MDOUT_B4__OPEN_DRAIN | P1MDOUT_B5__OPEN_DRAIN
- 158   2                      | P1MDOUT_B6__OPEN_DRAIN;
- 159   2      
- 160   2              if ((MCTL & 0x01 == 1)){
- 161   3                  // set decay to fast
- 162   3                  SetDecayFast(1);
- 163   3              }
- 164   2              else{
- 165   3                  // set decay to slow
- 166   3                  SetDecayFast(0);
- 167   3              }
- 168   2          }
- 169   1      
- 170   1          // mask MCTL and set bits 6:3 to 0
- 171   1          MCTL &= 87;
- 172   1      
- 173   1      }
- 174          
- 175          void RefreshMSTAT (void)
-C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 20:55:04 PAGE 4   
+ 119   1      }
+ 120          
+ 121          void RefreshMCTL (void)
+ 122          {
+ 123   1          // This function read the value of MCTL, executes the value and refreshes it
+ 124   1          // first we check for a reset condition
+ 125   1          if ((MCTL & 0x80) != 0){
+ 126   2              // reset condition initiates here
+ 127   2              ResetDriver();
+ 128   2              // set reset flag to zero in MCTL
+ 129   2              MCTL &= 0x7F;
+ 130   2          }
+ 131   1      
+ 132   1          // set sleep pin
+ 133   1          if ((MCTL & 0x04) == 0){
+ 134   2              // set sleep# pin to 1
+ 135   2              DSLEEPB = 1;
+ 136   2          }
+ 137   1          else{
+ 138   2              // set sleep# pin to 0
+ 139   2              DSLEEPB = 0;
+ 140   2          }
+ 141   1      
+ 142   1          // look at decay pins
+ 143   1          if ((MCTL & 0x02) == 1){
+ 144   2              // mixed decay bit is set
+ 145   2              // set decay pin P1.0 to open-drain, keep other values to reset state
+ 146   2              P1MDOUT = P1MDOUT_B0__OPEN_DRAIN | P1MDOUT_B1__PUSH_PULL
+ 147   2                      | P1MDOUT_B2__PUSH_PULL | P1MDOUT_B3__PUSH_PULL
+ 148   2                      | P1MDOUT_B4__OPEN_DRAIN | P1MDOUT_B5__OPEN_DRAIN
+ 149   2                      | P1MDOUT_B6__OPEN_DRAIN;
+ 150   2      
+ 151   2              // set P1.0 pin to high, make sure it's not driving low
+ 152   2              DECAY = 0;
+ 153   2          }
+ 154   1          else{
+ 155   2      
+ 156   2              // P1.0 to push-pull, keep other values to reset state
+ 157   2              P1MDOUT = P1MDOUT_B0__PUSH_PULL | P1MDOUT_B1__PUSH_PULL
+ 158   2                      | P1MDOUT_B2__PUSH_PULL | P1MDOUT_B3__PUSH_PULL
+ 159   2                      | P1MDOUT_B4__OPEN_DRAIN | P1MDOUT_B5__OPEN_DRAIN
+ 160   2                      | P1MDOUT_B6__OPEN_DRAIN;
+ 161   2      
+ 162   2              if ((MCTL & 0x01 == 1)){
+ 163   3                  // set decay to fast
+ 164   3                  SetDecayFast(1);
+ 165   3              }
+ 166   2              else{
+ 167   3                  // set decay to slow
+ 168   3                  SetDecayFast(0);
+ 169   3              }
+ 170   2          }
+ 171   1      
+ 172   1          // mask MCTL and set bits 6:3 to 0
+ 173   1          MCTL &= 87;
+ 174   1      
+ 175   1      }
+C51 COMPILER V9.53.0.0   DRV8825                                                           10/25/2016 21:14:30 PAGE 4   
 
- 176          {
- 177   1          // this function refreshes MSTAT register
- 178   1          MSTAT = 0;                                          // initial value of 0x00
- 179   1      
- 180   1          if (FAULTB == 0){
- 181   2              MSTAT |= 0x01;                                  // set fault bit
- 182   2          }
- 183   1      
- 184   1          if (HOMEB == 0){
- 185   2              MSTAT |= 0x02;                                  // set home bit
- 186   2          }
- 187   1      }
- 188          
- 189          void drv8825_init(void)
- 190          {
- 191   1          // this function loads the default values and initializes the driver
- 192   1      
- 193   1          // initialize MCTL
- 194   1          MCTL = 0x81;                    // default value, reset driver and fast decay
- 195   1          RefreshMCTL();
- 196   1      
- 197   1          // set stepping resolution
- 198   1          StepRes = StepRes_default;
- 199   1          SetSteppingMode();
- 200   1      
- 201   1          // initialize drive current
- 202   1          IDRVH = IDRVH_default;
- 203   1          IDRVL = IDRVL_default;
- 204   1          SetDriveCurrent();
- 205   1      }
+ 176          
+ 177          void RefreshMSTAT (void)
+ 178          {
+ 179   1          // this function refreshes MSTAT register
+ 180   1          MSTAT = 0;                                          // initial value of 0x00
+ 181   1      
+ 182   1          if (FAULTB == 0){
+ 183   2              MSTAT |= 0x01;                                  // set fault bit
+ 184   2          }
+ 185   1      
+ 186   1          if (HOMEB == 0){
+ 187   2              MSTAT |= 0x02;                                  // set home bit
+ 188   2          }
+ 189   1      }
+ 190          
+ 191          void drv8825_init(void)
+ 192          {
+ 193   1          // this function loads the default values and initializes the driver
+ 194   1      
+ 195   1          // initialize MCTL
+ 196   1          MCTL = 0x81;                    // default value, reset driver and fast decay
+ 197   1          RefreshMCTL();
+ 198   1      
+ 199   1          // set stepping resolution
+ 200   1          StepRes = StepRes_default;
+ 201   1          SetSteppingMode();
+ 202   1      
+ 203   1          // initialize drive current
+ 204   1          IDRVH = IDRVH_default;
+ 205   1          IDRVL = IDRVL_default;
+ 206   1          SetDriveCurrent();
+ 207   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    270    ----
+   CODE SIZE        =    276    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

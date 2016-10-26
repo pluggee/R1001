@@ -108,6 +108,8 @@ void SetDriveCurrent (void)
     if (drivecurrent > 2000){
         // limit drive current to 2A (2000mA)
         drivecurrent = 2000;
+        IDRVH = 0x07;               // also update internal IDRVH register
+        IDRVL = 0xD0;               // also update internal IDRVL register
     }
     // current = 2A when vout = 2.5V
     // VDD = 3.3V, so max pwm value is 194
