@@ -1,4 +1,4 @@
-update=Thu 16 Jun 2016 11:29:48 PM PDT
+update=Tue 29 Nov 2016 03:18:37 PM PST
 version=1
 last_client=kicad
 [pcbnew]
@@ -37,3 +37,4 @@ LibName5=microcontroller
 LibName6=conn
 LibName7=electromechanical
 LibName8=logic
+LibName9=devices
