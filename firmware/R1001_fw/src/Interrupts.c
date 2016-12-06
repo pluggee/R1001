@@ -17,11 +17,13 @@
 //extern uint32_t ADC_SUM;               // Accumulates the ADC samples
 //extern bit CONV_COMPLETE;              // ADC accumulated result ready flag
 
-uint32_t ADC_SUM;               // Accumulates the ADC samples
-//bit CONV_COMPLETE;              // ADC accumulated result ready flag
+uint32_t ADC_SUM;                           // Accumulates the ADC samples
+//bit CONV_COMPLETE;                        // ADC accumulated result ready flag
 char temp_val;
-char TSUM[4];					// bytes of ADC SUM
-char TADCH, TADCL;				// bytes for single ADC read
+char TSUM[4];                               // bytes of ADC SUM
+char TADCH, TADCL;                          // bytes for single ADC read
+
+char writelen = 0;
 
 // temperature sensor constants
 #define DS_SLOPE				0.00285		// slope from datasheet in V/C
@@ -43,9 +45,9 @@ char TADCH, TADCL;				// bytes for single ADC read
 // TCON::TF0 (Timer 0 Overflow Flag)
 //
 //-----------------------------------------------------------------------------
-SI_INTERRUPT (TIMER0_ISR, TIMER0_IRQn)
-{
-}
+//SI_INTERRUPT (TIMER0_ISR, TIMER0_IRQn)
+//{
+//}
 
 //-----------------------------------------------------------------------------
 // SMBUS0_ISR
@@ -64,72 +66,65 @@ SI_INTERRUPT (SMBUS0_ISR, SMBUS0_IRQn)
 	{
 		switch (SMB0CN0 & 0xF0)          // Decode the SMBus status vector
 		{
-			// Slave Receiver: Start+Address received
+			// Slave Receiver: Start+Slave Address received
 			case SMB_SRADD:
+                SMB0CN0_STA = 0;// Clear SMB0CN0_STA bit
 
-			SMB0CN0_STA = 0;// Clear SMB0CN0_STA bit
+                sent_byte_counter = 1;// Reinitialize the data counters
+                rec_byte_counter = 1;
 
-			sent_byte_counter = 1;// Reinitialize the data counters
-			rec_byte_counter = 1;
+                if ((SMB0DAT & 0x01) == READ)// If the transfer is a master READ,
+                {
+                    // Prepare outgoing byte
+                    SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
+                    sent_byte_counter++;
+                }
 
-			if ((SMB0DAT & 0x01) == READ)// If the transfer is a master READ,
-			{
-				// Prepare outgoing byte
-				SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
-				sent_byte_counter++;
-			}
+                // need to add an acknowledge here????
+                // added an ack here
+                SMB0CN0_ACK = 1;// send an acknowledge that address and command are received
 
-			// need to add an acknowledge here????
-			// added an ack here
-			SMB0CN0_ACK = 1;// send an acknowledge that address and command are received
-
-			break;
+                break;
 
 			// Slave Receiver: Data received
 			case SMB_SRDB:
-
-			if (rec_byte_counter < NUM_BYTES_WR)
-			{
-				// Store incoming data
-				SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
-				rec_byte_counter++;
-
-				SMB0CN0_ACK = 1;// SMB0CN0_ACK received data
-			}
-			else
-			{
-				// Store incoming data
-				SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
-
-				DATA_READY = 1;// Indicate new data fully received
-			}
-
-			break;
+                if (rec_byte_counter < NUM_BYTES_WR)
+                {
+                    // Store incoming data
+                    SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
+                    rec_byte_counter++;
+                    SMB0CN0_ACK = 1;         // SMB0CN0_ACK received data
+                }
+                else
+                {
+                    // Store incoming data
+                    SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
+                    DATA_READY = 1;         // Indicate new data fully received
+                }
+                writelen++;                 // increment global write length counter
+                break;
 
 			// Slave Receiver: Stop received while either a Slave Receiver or
 			// Slave Transmitter
 			case SMB_SRSTO:
+                SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
+                                            // a STOP is detected as a slave
 
-			SMB0CN0_STO = 0;// SMB0CN0_STO must be cleared by software when
-							// a STOP is detected as a slave
-
-			DATA_READY = 1;// Indicates end of transmission
-
-			break;
+                DATA_READY = 1;             // Indicates end of transmission
+                break;
 
 			// Slave Transmitter: Data byte transmitted
 			case SMB_STDB:
-
-			if (SMB0CN0_ACK == 1)// If Master SMB0CN0_ACK's, send the next byte
-			{
-				if (sent_byte_counter <= NUM_BYTES_RD)
-				{
-					// Prepare next outgoing byte
-					SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
-					sent_byte_counter++;
-				}
-			}                          // Otherwise, do nothing
-			break;
+                if (SMB0CN0_ACK == 1)// If Master SMB0CN0_ACK's, send the next byte
+                {
+                    if (sent_byte_counter <= NUM_BYTES_RD)
+                    {
+                        // Prepare next outgoing byte
+                        SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
+                        sent_byte_counter++;
+                    }
+                }                          // Otherwise, do nothing
+                break;
 
 			// Slave Transmitter: Arbitration lost, Stop detected
 			//
@@ -138,20 +133,18 @@ SI_INTERRUPT (SMBUS0_ISR, SMBUS0_IRQn)
 			// data pending when a STOP is received from the master, so the SMB0CN0_TXMODE
 			// bit is cleared and the slave goes to the SRSTO state.
 			case SMB_STSTO:
+                SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
+                                            // a STOP is detected as a slave
+                break;
 
-			SMB0CN0_STO = 0;// SMB0CN0_STO must be cleared by software when
-							// a STOP is detected as a slave
-			break;
-
-							// Default: all other cases undefined
-			default:
-
-			SMB0CF &= ~0x80;// Reset communication
-			SMB0CF |= 0x80;
-			SMB0CN0_STA = 0;
-			SMB0CN0_STO = 0;
-			SMB0CN0_ACK = 1;
-			break;
+          // Default: all other cases undefined
+            default:
+                SMB0CF &= ~0x80;// Reset communication
+                SMB0CF |= 0x80;
+                SMB0CN0_STA = 0;
+                SMB0CN0_STO = 0;
+                SMB0CN0_ACK = 1;
+                break;
 		}
 	}
 	// SMB0CN0_ARBLOST = 1, Abort failed transfer

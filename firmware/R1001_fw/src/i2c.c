@@ -13,8 +13,8 @@
 // ID pin definitions
 SBIT(ID0, SFR_P0, 3);
 SBIT(ID1, SFR_P0, 2);
-SBIT(ID2, SFR_P0, 1);
-SBIT(ID3, SFR_P0, 0);
+SBIT(ID2, SFR_P1, 6);
+SBIT(ID3, SFR_P1, 5);
 
 
 void SetI2CSlaveAddress (void)

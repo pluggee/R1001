@@ -29,9 +29,9 @@
                                        //    transaction; bus error
 // End status vector definition
 
-#define  NUM_BYTES_WR                4 // Number of bytes to write
+#define  NUM_BYTES_WR                3 // Number of bytes to write
                                        // Slave <- Master
-#define  NUM_BYTES_RD                4 // Number of bytes to read
+#define  NUM_BYTES_RD                3 // Number of bytes to read
                                        // Slave -> Master
 
 void SetI2CSlaveAddress (void);

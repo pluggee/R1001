@@ -15,14 +15,12 @@
 //-----------------------------------------------------------------------------
 // Global Constants
 //-----------------------------------------------------------------------------
-
+#define PLATFORM    0x01        // platform ID, 0x01 for R1000A
+#define DEVID       0x01        // device ID, 0x01 for R1001 stepper motor driver
+#define FWVER       0x01        // firmware build
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
-//uint32_t ADC_SUM;               // Accumulates the ADC samples
-//bit CONV_COMPLETE;              // ADC accumulated result ready flag
-
-
 
 
 // Global holder for SMBus data.
@@ -40,13 +38,11 @@ bit DATA_READY = 0;                    // Set to '1' by the SMBus ISR
                                        // received.
 
 // Driver Initialization function
-void DriverInit (void)
+void Init (void)
 {
-	ResetDriver();
-	SetDecayFast();
-	SetSteppingMode(5);			// set stepping mode to 1/32
+	drv8825_init();                     // Initialize driver
+	SetI2CSlaveAddress();               // Initialize I2C slave address
 }
-
 
 //-----------------------------------------------------------------------------
 // main() Routine
@@ -56,8 +52,7 @@ int main (void)
 	// Call hardware initialization routine
 	enter_DefaultMode_from_RESET();
 
-	DriverInit();				// initialize 8825 driver
-	SetI2CSlaveAddress();		// Initialize I2C slave address
+	Init();				                // Initialize system
 
 	while (1) 
    {
@@ -66,36 +61,83 @@ int main (void)
 
 		// now we look at the contents of the data in the buffer and act accordingly
 		switch(SMB_DATA_IN[0]){
-		case 0x42:
-			// Return the module ID
+		case 0x01:
+			// Return platform ID
 			// Prepare buffer with ID string
-			SMB_DATA_OUT[0] = 1;		// This is for 1000 in R1001
-			SMB_DATA_OUT[1] = 1;		// This is for 1 in R1001
-			SMB_DATA_OUT[2] = 0x2C;		// just a filler
+			SMB_DATA_OUT[0] = PLATFORM;     // Platform ID
 			break;
-		case 0x50:
+		case 0x02:
+			// Return device ID
+			// Prepare buffer with ID string
+			SMB_DATA_OUT[0] = DEVID;        // device ID
+			break;
+		case 0x03:
+			// Return firmware VER
+			// Prepare buffer with ID string
+			SMB_DATA_OUT[0] = FWVER;        // firmware version
+			break;
+		case 0x10:
+            // This reads out the temperature value
+            SMB_DATA_OUT[0] = temp_val;
+            break;
+		case 0x20:
 			// Set stepper motor stepping resolution
 			// This is a command to change stepping resolution, set it to the value stored in SMB_DATA_IN[1]
-			SetSteppingMode(SMB_DATA_IN[1]);
-			break;
-		case 0x20:
-			// This reads out the temperature value
-			SMB_DATA_OUT[0] = temp_val;
+		    if (writelen > 1){
+			    StepRes = SMB_DATA_IN[1];       // store new value to internal variable
+			    if ((StepRes > 5) || (StepRes < 0)) {       // Limit step res to the proper range
+                    StepRes = 5;
+                }
+			    SetSteppingMode();              // apply new stepping resolution setting
+			}
+		    SMB_DATA_OUT[0] = StepRes;
+		    // limit the range of StepRes
 			break;
 		case 0x21:
-			// This reads out the current ADC value
-			SMB_DATA_OUT[0] = TADCL;
-			SMB_DATA_OUT[1] = TADCH;
+		    // here we check if writing to IDRVL and IDRVH
+		    if (writelen == 2){
+                // only write IDRVL
+		        IDRVL = SMB_DATA_IN[1];         // store new value to internal variable
+		        SetDriveCurrent();              // apply new stepping driver current
+            }
+		    else if (writelen > 2){
+                // write IDRVL & IDRVH
+                IDRVL = SMB_DATA_IN[1];         // store new value to internal variable
+                IDRVH = SMB_DATA_IN[2];         // store new value to internal variable
+                SetDriveCurrent();              // apply new stepping driver current
+            }
+
+		    // Store IDRVL/H values into output buffer
+		    SMB_DATA_OUT[0] = IDRVL;
+			SMB_DATA_OUT[1] = IDRVH;
 			break;
 		case 0x22:
-			// this reads out the ADC sum bytes
-			SMB_DATA_OUT[0] = TSUM[0];
-			SMB_DATA_OUT[1] = TSUM[1];
-			SMB_DATA_OUT[2] = TSUM[2];
-			SMB_DATA_OUT[3] = TSUM[3];
+            // here we check if writing to IDRVH
+            if (writelen > 1){
+                // only write IDRVH
+                IDRVH = SMB_DATA_IN[1];         // store new value to internal variable
+                SetDriveCurrent();              // apply new stepping driver current
+            }
+            // Store IDRVH value in output buffer
+            SMB_DATA_OUT[0] = IDRVH;
 			break;
+		case 0x23:
+		    // Stepper driver control register
+		    if (writelen > 1){
+                // parse input and execute values
+                MCTL = SMB_DATA_IN[1];          // store new value to internal variable
+                RefreshMCTL();                  // apply new stepping driver current
+            }
+		    SMB_DATA_OUT[0] = MCTL;             // place refreshed MCTL value in output buffer
+		    break;
+		case 0x24:
+		    // refresh status register before pushing it out
+		    RefreshMSTAT();
+            SMB_DATA_OUT[0] = MSTAT;             // place refreshed MCTL value in output buffer
+            break;
 		default:
 			break;
 		}
+		writelen = 0;                           // reset writelen counter
    }                             
 }
