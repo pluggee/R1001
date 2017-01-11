@@ -2,7 +2,7 @@
 <export version="D">
   <design>
     <source>/home/sherif/git/R1001/pcb/R1001.sch</source>
-    <date>Thu 22 Dec 2016 11:27:43 AM PST</date>
+    <date>Wed 11 Jan 2017 12:22:24 AM PST</date>
     <tool>Eeschema 4.0.3+e1-6302~38~ubuntu14.04.1-stable</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -715,6 +715,12 @@
     </libpart>
   </libparts>
   <libraries>
+    <library logical="devices">
+      <uri>/home/sherif/git/KiCADLibs/sch/devices.lib</uri>
+    </library>
+    <library logical="microcontroller">
+      <uri>/home/sherif/git/KiCADLibs/sch/microcontroller.lib</uri>
+    </library>
     <library logical="device">
       <uri>/usr/share/kicad/library/device.lib</uri>
     </library>
@@ -724,14 +730,8 @@
     <library logical="connect">
       <uri>/home/sherif/git/KiCADLibs/sch/connect.lib</uri>
     </library>
-    <library logical="microcontroller">
-      <uri>/home/sherif/git/KiCADLibs/sch/microcontroller.lib</uri>
-    </library>
     <library logical="logic">
       <uri>/home/sherif/git/KiCADLibs/sch/logic.lib</uri>
-    </library>
-    <library logical="devices">
-      <uri>/home/sherif/git/KiCADLibs/sch/devices.lib</uri>
     </library>
   </libraries>
   <nets>
