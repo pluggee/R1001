@@ -1,0 +1,197 @@
+C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 07:05:14 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SMB
+OBJECT MODULE PLACED IN .\src/smb.OBJ
+COMPILER INVOKED BY: Z:\Applications\SimplicityStudio_v3\developer\toolchains\keil_8051\9.53\BIN\C51.exe /Users/sherifei
+                    -d/plugge_git/R1001/firmware/R1001_bl/src/smb.c OMF2 SMALL DEBUG OBJECTEXTEND ROM(LARGE) WARNINGLEVEL(2) FLOATFUZZY(3) OP
+                    -TIMIZE(9,SPEED) DEFINE(NDEBUG=1) INTVECTOR(0X0000) INTPROMOTE INCDIR(/Users/sherifeid/plugge_git/R1001/firmware/R1001_bl
+                    -/inc;/Applications/SimplicityStudio_v3/developer/sdks/si8051/v3//Device/shared/si8051Base;/Applications/SimplicityStudio
+                    -_v3/developer/sdks/si8051/v3//Device/EFM8BB1;/Applications/SimplicityStudio_v3/developer/sdks/si8051/v3//Device/EFM8BB1/
+                    -inc) REGFILE(R1001_bl.ORC) PRINT(.\src/smb.lst) COND PAGEWIDTH(120) PAGELENGTH(65) OBJECT(.\src/smb.OBJ)
+
+line level    source
+
+   1          /*
+   2           * smb.c
+   3           *
+   4           *  Created on: Feb 12, 2017
+   5           *      Author: sherifeid
+   6           */
+   7          
+   8          #include <compiler_defs.h>
+   9          #include <SI_EFM8BB1_Register_Enums.h>                  // SFR declarations
+  10          #include "smb.h"
+  11          #include "R1001_bl_main.h"
+  12          
+  13          
+  14          //-----------------------------------------------------------------------------
+  15          // Global Variables
+  16          //-----------------------------------------------------------------------------
+  17          
+  18          // ID pin definitions
+  19          SBIT(ID0, SFR_P0, 3);
+  20          SBIT(ID1, SFR_P0, 2);
+  21          SBIT(ID2, SFR_P1, 6);
+  22          SBIT(ID3, SFR_P1, 5);
+  23          
+  24          
+  25          void SetI2CSlaveAddress (void)
+  26          {
+  27   1          // This function reads the ID pins on the MCU to identify the slave address
+  28   1          unsigned char pid0, pid1, pid2, pid3, i2cid;
+  29   1      
+  30   1          // extract values from GPIO
+  31   1          if (ID0 == 0){
+  32   2              pid0 = 0;
+  33   2          }
+  34   1          else{
+  35   2              pid0 = 1;
+  36   2          }
+  37   1          if (ID1 == 0){
+  38   2              pid1 = 0;
+  39   2          }
+  40   1          else{
+  41   2              pid1 = 1;
+  42   2          }
+  43   1          if (ID2 == 0){
+  44   2              pid2 = 0;
+  45   2          }
+  46   1          else{
+  47   2              pid2 = 1;
+  48   2          }
+  49   1          if (ID3 == 0){
+  50   2              pid3 = 0;
+  51   2          }
+C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 07:05:14 PAGE 2   
+
+  52   1          else{
+  53   2              pid3 = 1;
+  54   2          }
+  55   1      
+  56   1          //i2cid = ID0 | (ID1 << 1) | (ID2 << 2) | (ID3 << 3) | 0x10;
+  57   1          i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x10;
+  58   1      
+  59   1      
+  60   1          // I2C addresses range from 0x10 to 0x1F depending on where the module is populated
+  61   1          SMB0ADR = SMB0ADR_GC__IGNORED | (i2cid << SMB0ADR_SLV__SHIFT);
+  62   1      }
+  63          
+  64          void RunSMBHandler (void){
+  65   1          static uint8_t sent_byte_counter;
+  66   1          static uint8_t rec_byte_counter;
+  67   1      
+  68   1          if (SMB0CN0_ARBLOST == 0)
+  69   1          {
+  70   2              switch (SMB0CN0 & 0xF0)          // Decode the SMBus status vector
+  71   2              {
+  72   3                  // Slave Receiver: Start+Slave Address received
+  73   3                  case SMB_SRADD:
+  74   3                      SMB0CN0_STA = 0;// Clear SMB0CN0_STA bit
+  75   3      
+  76   3                      sent_byte_counter = 1;// Reinitialize the data counters
+  77   3                      rec_byte_counter = 1;
+  78   3      
+  79   3                      if ((SMB0DAT & 0x01) == READ)// If the transfer is a master READ,
+  80   3                      {
+  81   4                          // Prepare outgoing byte
+  82   4                          SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
+  83   4                          sent_byte_counter++;
+  84   4                      }
+  85   3      
+  86   3                      // need to add an acknowledge here????
+  87   3                      // added an ack here
+  88   3                      SMB0CN0_ACK = 1;// send an acknowledge that address and command are received
+  89   3      
+  90   3                      break;
+  91   3      
+  92   3                  // Slave Receiver: Data received
+  93   3                  case SMB_SRDB:
+  94   3                      if (rec_byte_counter < TGT_BL_BUF_SIZE)
+  95   3                      {
+  96   4                          // Store incoming data
+  97   4                          SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
+  98   4                          rec_byte_counter++;
+  99   4                          SMB0CN0_ACK = 1;         // SMB0CN0_ACK received data
+ 100   4                      }
+ 101   3                      else
+ 102   3                      {
+ 103   4                          // Store incoming data
+ 104   4                          SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
+ 105   4                          DATA_READY = 1;         // Indicate new data fully received
+ 106   4                      }
+ 107   3                      break;
+ 108   3      
+ 109   3                  // Slave Receiver: Stop received while either a Slave Receiver or
+ 110   3                  // Slave Transmitter
+ 111   3                  case SMB_SRSTO:
+ 112   3                      SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
+ 113   3                                                  // a STOP is detected as a slave
+ 114   3      
+C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 07:05:14 PAGE 3   
+
+ 115   3                      DATA_READY = 1;             // Indicates end of transmission
+ 116   3                      break;
+ 117   3      
+ 118   3                  // Slave Transmitter: Data byte transmitted
+ 119   3                  case SMB_STDB:
+ 120   3                      if (SMB0CN0_ACK == 1)// If Master SMB0CN0_ACK's, send the next byte
+ 121   3                      {
+ 122   4                          if (sent_byte_counter <= TGT_BL_BUF_SIZE)
+ 123   4                          {
+ 124   5                              // Prepare next outgoing byte
+ 125   5                              SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
+ 126   5                              sent_byte_counter++;
+ 127   5                          }
+ 128   4                      }                          // Otherwise, do nothing
+ 129   3                      break;
+ 130   3      
+ 131   3                  // Slave Transmitter: Arbitration lost, Stop detected
+ 132   3                  //
+ 133   3                  // This state will only be entered on a bus error condition.
+ 134   3                  // In normal operation, the slave is no longer sending data or has
+ 135   3                  // data pending when a STOP is received from the master, so the SMB0CN0_TXMODE
+ 136   3                  // bit is cleared and the slave goes to the SRSTO state.
+ 137   3                  case SMB_STSTO:
+ 138   3                      SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
+ 139   3                                                  // a STOP is detected as a slave
+ 140   3                      break;
+ 141   3      
+ 142   3                // Default: all other cases undefined
+ 143   3                  default:
+ 144   3                      SMB0CF &= ~0x80;// Reset communication
+ 145   3                      SMB0CF |= 0x80;
+ 146   3                      SMB0CN0_STA = 0;
+ 147   3                      SMB0CN0_STO = 0;
+ 148   3                      SMB0CN0_ACK = 1;
+ 149   3                      break;
+ 150   3              }
+ 151   2          }
+ 152   1          // SMB0CN0_ARBLOST = 1, Abort failed transfer
+ 153   1          else
+ 154   1          {
+ 155   2              SMB0CN0_STA = 0;
+ 156   2              SMB0CN0_STO = 0;
+ 157   2              SMB0CN0_ACK = 1;
+ 158   2          }
+ 159   1      
+ 160   1          SMB0CN0_SI = 0;                     // Clear SMBus interrupt flag
+ 161   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    189    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
