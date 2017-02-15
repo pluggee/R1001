@@ -1,8 +1,0 @@
-"./src/BL_functions.OBJ",
-"./src/EFM8BB1_FlashPrimitives.OBJ",
-"./src/InitDevice.OBJ",
-"./src/Interrupts.OBJ",
-"./src/R1001_bl_main.OBJ",
-"./src/SILABS_STARTUP.OBJ",
-"./src/smb.OBJ"
-TO "R1001_BL.OMF.CRBUILD" REMOVEUNUSED PRINT(.\R1001_bl.m51) PAGEWIDTH (120) PAGELENGTH (65) CLASSES( CODE(C:0x0 - C:0x1ffe), CONST(C:0x0 - C:0x1ffe), ECODE(C:0x0 - C:0x1ffe), HCONST(C:0x0 - C:0x1ffe), XDATA(X:0x0 - X:0xff), HDATA(X:0x0 - X:0xff))

@@ -99,10 +99,6 @@ int main(void)
         // Wait until a command is received
         while (!DATA_READY);             // New SMBus data received? gets out of the loop with a command transfer is complete
 
-//        while (!DATA_READY){
-//            RunSMBHandler();
-//        }
-
         DATA_READY = 0;
 
         // now we look at the contents of the data in the buffer and act accordingly
@@ -120,16 +116,13 @@ int main(void)
             case TGT_CMD_READ_FLASH_BYTES:
                 TGT_Read_Flash();
                 break;
-            case TGT_CMD_ENTER_BL_MODE:
-                Set_TX_TGT_RSP_BL_MODE();
-                break;
             default:
                 Set_TX_TGT_RSP_UNSUPPORTED_CMD();
                 break;
         }
 
         // Set flash keys to 0
-        Flash_Key0 = 0;
-        Flash_Key1 = 0;
+//        Flash_Key0 = 0;
+//        Flash_Key1 = 0;
     }
 }
