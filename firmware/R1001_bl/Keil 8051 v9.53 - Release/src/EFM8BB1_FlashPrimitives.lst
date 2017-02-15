@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   EFM8BB1_FLASHPRIMITIVES                                           02/13/2017 13:51:19 PAGE 1   
+C51 COMPILER V9.53.0.0   EFM8BB1_FLASHPRIMITIVES                                           02/14/2017 19:28:44 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE EFM8BB1_FLASHPRIMITIVES
@@ -63,7 +63,7 @@ line level    source
   48          void FLASH_ByteWrite (FLADDR addr, uint8_t byte)
   49          {
   50   1         bit EA_SAVE = IE_EA;                // Preserve IE_EA
-C51 COMPILER V9.53.0.0   EFM8BB1_FLASHPRIMITIVES                                           02/13/2017 13:51:19 PAGE 2   
+C51 COMPILER V9.53.0.0   EFM8BB1_FLASHPRIMITIVES                                           02/14/2017 19:28:44 PAGE 2   
 
   51   1         uint8_t xdata * data pwrite;           // Flash write pointer
   52   1      
@@ -128,7 +128,7 @@ line level    source
  111          // Return Value : None
  112          // Parameters   :
  113          //   1) FLADDR addr - address of any byte in the page to erase
-C51 COMPILER V9.53.0.0   EFM8BB1_FLASHPRIMITIVES                                           02/13/2017 13:51:19 PAGE 3   
+C51 COMPILER V9.53.0.0   EFM8BB1_FLASHPRIMITIVES                                           02/14/2017 19:28:44 PAGE 3   
 
  114          //                    valid range is from 0x0000 to 0x1FFF for 8 kB devices
  115          //                    valid range is from 0x0000 to 0x0FFF for 4 kB devices

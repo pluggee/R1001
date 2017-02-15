@@ -54,7 +54,7 @@ void SetI2CSlaveAddress (void)
     }
 
     //i2cid = ID0 | (ID1 << 1) | (ID2 << 2) | (ID3 << 3) | 0x10;
-    i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x10;
+    i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x30;
 
 
     // I2C addresses range from 0x10 to 0x1F depending on where the module is populated

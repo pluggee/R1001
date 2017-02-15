@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 07:05:14 PAGE 1   
+C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 19:28:45 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SMB
@@ -63,14 +63,14 @@ line level    source
   49   1          if (ID3 == 0){
   50   2              pid3 = 0;
   51   2          }
-C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 07:05:14 PAGE 2   
+C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 19:28:45 PAGE 2   
 
   52   1          else{
   53   2              pid3 = 1;
   54   2          }
   55   1      
   56   1          //i2cid = ID0 | (ID1 << 1) | (ID2 << 2) | (ID3 << 3) | 0x10;
-  57   1          i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x10;
+  57   1          i2cid = pid0 | (pid1 << 1) | (pid2 << 2) | (pid3 << 3) | 0x30;
   58   1      
   59   1      
   60   1          // I2C addresses range from 0x10 to 0x1F depending on where the module is populated
@@ -128,7 +128,7 @@ line level    source
  112   3                      SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
  113   3                                                  // a STOP is detected as a slave
  114   3      
-C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 07:05:14 PAGE 3   
+C51 COMPILER V9.53.0.0   SMB                                                               02/14/2017 19:28:45 PAGE 3   
 
  115   3                      DATA_READY = 1;             // Indicates end of transmission
  116   3                      break;

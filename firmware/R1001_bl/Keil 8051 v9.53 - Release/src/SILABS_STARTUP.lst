@@ -1,4 +1,4 @@
-AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/13/17 13:51:19 PAGE     1
+AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/14/17 19:28:45 PAGE     1
 
 
 MACRO ASSEMBLER AX51 V3.12.0.0
@@ -62,7 +62,7 @@ LOC    OBJ             LINE     SOURCE
                          47     ;
                          48     ;</h>
                          49     ;------------------------------------------------------------------------------
-AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/13/17 13:51:19 PAGE     2
+AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/14/17 19:28:45 PAGE     2
 
                          50     ;
                          51     ;<h> Reentrant Stack Initialization
@@ -127,48 +127,46 @@ LOC    OBJ             LINE     SOURCE
  0082                   110     DPL     DATA    82H
  0083                   111     DPH     DATA    83H
                         112     
-AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/13/17 13:51:19 PAGE     3
+AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/14/17 19:28:45 PAGE     3
 
-                        113     ;Redirected Interrupt Entries
-                        114     ;Changes to INTVEC_TABLE location should be mirrored in:
-                        115     ;   BL FW's USB_BL_Defs.h (APP_START_PAGE)
-                        116     ;   App FW's STARTUP.A51, Compiler and Linker command lines
-                        117     PUBLIC START_APPLICATION            ;The entry point (relocated reset vector)
-                        118     ;START_APPLICATION     EQU  0200h    ;for the application FW project
- 0400                   119     START_APPLICATION     EQU  0400h    ;added extra page for the larger bootloader
+                        113     ;------ Custom bootloader code
+                        114     PUBLIC START_APPLICATION            ;The entry point (relocated reset vector)
+ 0400                   115     START_APPLICATION     EQU  0400h    ;for the application FW project
+                        116     ;------ End custom bootloader code
+                        117     
+                        118     
+                        119                     NAME    ?C_STARTUP
                         120     
-                        121                     NAME    ?C_STARTUP
-                        122     
-                        123     
-------                  124     ?C_C51STARTUP   SEGMENT   CODE
-------                  125     ?STACK          SEGMENT   IDATA
-                        126     
-------                  127                     RSEG    ?STACK
-000000                  128                     DS      1
-                        129     
-                        130                     EXTRN CODE (?C_START)
-                        131                     PUBLIC  ?C_STARTUP
-                        132     
-000000                  133                     CSEG    AT      0
-000000 020000     F     134     ?C_STARTUP:     LJMP    STARTUP1
+                        121     
+------                  122     ?C_C51STARTUP   SEGMENT   CODE
+------                  123     ?STACK          SEGMENT   IDATA
+                        124     
+------                  125                     RSEG    ?STACK
+000000                  126                     DS      1
+                        127     
+                        128                     EXTRN CODE (?C_START)
+                        129                     PUBLIC  ?C_STARTUP
+                        130     
+000000                  131                     CSEG    AT      0
+000000 020000     F     132     ?C_STARTUP:     LJMP    STARTUP1
+                        133     
+------                  134                     RSEG    ?C_C51STARTUP
                         135     
-------                  136                     RSEG    ?C_C51STARTUP
+000000                  136     STARTUP1:
                         137     
-000000                  138     STARTUP1:
-                        139     
-                        140     $if  (SILABS_STARTUP = 1)
+                        138     $if  (SILABS_STARTUP = 1)
                                 EXTRN   CODE (SiLabs_Startup)
                                                 LCALL   SiLabs_Startup
                                 $endif 
-                        144     
-                        145     IF IDATALEN <> 0
-000000 787F             146                     MOV     R0,#IDATALEN - 1
-000002 E4               147                     CLR     A
-000003 F6               148     IDATALOOP:      MOV     @R0,A
-000004 D8FD             149                     DJNZ    R0,IDATALOOP
-                        150     ENDIF
-                        151     
-                        152     IF XDATALEN <> 0
+                        142     
+                        143     IF IDATALEN <> 0
+000000 787F             144                     MOV     R0,#IDATALEN - 1
+000002 E4               145                     CLR     A
+000003 F6               146     IDATALOOP:      MOV     @R0,A
+000004 D8FD             147                     DJNZ    R0,IDATALOOP
+                        148     ENDIF
+                        149     
+                        150     IF XDATALEN <> 0
                                                 MOV     DPTR,#XDATASTART
                                                 MOV     R7,#LOW (XDATALEN)
                                   IF (LOW (XDATALEN)) <> 0
@@ -182,56 +180,56 @@ LOC    OBJ             LINE     SOURCE
                                                 DJNZ    R7,XDATALOOP
                                                 DJNZ    R6,XDATALOOP
                                 ENDIF
-                        166     
-                        167     IF PPAGEENABLE <> 0
+                        164     
+                        165     IF PPAGEENABLE <> 0
                                                 MOV     PPAGE_SFR,#PPAGE
                                 ENDIF
-                        170     
-                        171     IF PDATALEN <> 0
+                        168     
+                        169     IF PDATALEN <> 0
                                                 MOV     R0,#LOW (PDATASTART)
                                                 MOV     R7,#LOW (PDATALEN)
                                                 CLR     A
                                 PDATALOOP:      MOVX    @R0,A
-AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/13/17 13:51:19 PAGE     4
-
                                                 INC     R0
                                                 DJNZ    R7,PDATALOOP
+AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/14/17 19:28:45 PAGE     4
+
                                 ENDIF
-                        179     
-                        180     IF IBPSTACK <> 0
+                        177     
+                        178     IF IBPSTACK <> 0
                                 EXTRN DATA (?C_IBP)
                                 
                                                 MOV     ?C_IBP,#LOW IBPSTACKTOP
                                 ENDIF
-                        185     
-                        186     IF XBPSTACK <> 0
+                        183     
+                        184     IF XBPSTACK <> 0
                                 EXTRN DATA (?C_XBP)
                                 
                                                 MOV     ?C_XBP,#HIGH XBPSTACKTOP
                                                 MOV     ?C_XBP+1,#LOW XBPSTACKTOP
                                 ENDIF
-                        192     
-                        193     IF PBPSTACK <> 0
+                        190     
+                        191     IF PBPSTACK <> 0
                                 EXTRN DATA (?C_PBP)
                                                 MOV     ?C_PBP,#LOW PBPSTACKTOP
                                 ENDIF
+                        195     
+000006 758100     F     196                     MOV     SP,#?STACK-1
                         197     
-000006 758100     F     198                     MOV     SP,#?STACK-1
-                        199     
-                        200     ; This code is required if you use L51_BANK.A51 with Banking Mode 4
-                        201     ;<h> Code Banking
-                        202     ; <q> Select Bank 0 for L51_BANK.A51 Mode 4
-                        203     $if  (USE_BANKING = 1)
+                        198     ; This code is required if you use L51_BANK.A51 with Banking Mode 4
+                        199     ;<h> Code Banking
+                        200     ; <q> Select Bank 0 for L51_BANK.A51 Mode 4
+                        201     $if  (USE_BANKING = 1)
                                 ;     <i> Initialize bank mechanism to code bank 0 when using L51_BANK.A51 with Banking 
                                Mode 4.
                                 EXTRN CODE (?B_SWITCH0)
                                                 CALL    ?B_SWITCH0      ; init bank mechanism to code bank 0
                                 $endif 
-                        208     ;</h>
-000009 020000     E     209                     LJMP    ?C_START
-                        210     
-                        211                     END
-AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/13/17 13:51:19 PAGE     5
+                        206     ;</h>
+000009 020000     E     207                     LJMP    ?C_START
+                        208     
+                        209                     END
+AX51 MACRO ASSEMBLER  SILABS_STARTUP                                                        02/14/17 19:28:45 PAGE     5
 
 SYMBOL TABLE LISTING
 ------ ----- -------

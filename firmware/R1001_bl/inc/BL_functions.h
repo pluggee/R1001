@@ -52,6 +52,9 @@ void TGT_Erase_Page(void);
 void TGT_Write_Flash(void);
 void TGT_Read_Flash(void);
 
+// application startup function
+void START_APPLICATION(void);
+
 bool ValidAppAddr(U16);
 
 extern U8 Flash_Key0;

@@ -42,44 +42,45 @@ int main(void)
     // Call hardware initialization routine
 //    enter_DefaultMode_from_RESET();
 
-    U8 device_mode = BOOTLOADER_MODE;
-//    U8 code* codeptr;
-//    //---------------------------------------
-//    // Check the bootloader consition.
-//    //---------------------------------------
-//    codeptr = (U8 code*)(APP_FW_SIG0_ADDR);
-//   // The Signature (in Flash) should be valid to allow application FW execution.
-//   // This is written at the end of the bootloading process by the bootloader.
-//    if (*codeptr == SIG_BYTE0)
-//    {
-//        *codeptr--;
-//        if (*codeptr == SIG_BYTE1)
-//        {
-//            *codeptr--;
-//            if (*codeptr == SIG_BYTE2)
-//            {
-//                *codeptr--;
-//                if (*codeptr == SIG_BYTE3)
-//                {
-//                    // All signature bytes match.
-//                    device_mode = APP_MODE;
-//                }
-//            }
-//        }
-//    }
-//
-//    // Enter bootloader mode on flash error reset
-//    if ((RSTSRC & 0x40) != 0)
-//    {
-//        // Check to see if the last reset was a flash error reset
-//        device_mode == BOOTLOADER_MODE;
-//    }
 
-//    if (device_mode == APP_MODE)
-//    {
-//        // If not in BL Override, jump to application
-//        START_APPLICATION();
-//    }
+    U8 device_mode = BOOTLOADER_MODE;
+    U8 code* codeptr;
+    //---------------------------------------
+    // Check the bootloader consition.
+    //---------------------------------------
+    codeptr = (U8 code*)(APP_FW_SIG0_ADDR);
+   // The Signature (in Flash) should be valid to allow application FW execution.
+   // This is written at the end of the bootloading process by the bootloader.
+    if (*codeptr == SIG_BYTE0)
+    {
+        *codeptr--;
+        if (*codeptr == SIG_BYTE1)
+        {
+            *codeptr--;
+            if (*codeptr == SIG_BYTE2)
+            {
+                *codeptr--;
+                if (*codeptr == SIG_BYTE3)
+                {
+                    // All signature bytes match.
+                    device_mode = APP_MODE;
+                }
+            }
+        }
+    }
+
+    // Enter bootloader mode on flash error reset
+    if ((RSTSRC & 0x40) != 0)
+    {
+        // Check to see if the last reset was a flash error reset
+        device_mode == BOOTLOADER_MODE;
+    }
+
+    if (device_mode == APP_MODE)
+    {
+        // If not in BL Override, jump to application
+        START_APPLICATION();
+    }
 
     //-------------------------------------------
     // ** BL Mode ** Initialize MCU and Variables

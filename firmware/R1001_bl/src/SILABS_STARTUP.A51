@@ -110,13 +110,11 @@ SP      DATA    81H
 DPL     DATA    82H
 DPH     DATA    83H
 
-;Redirected Interrupt Entries
-;Changes to INTVEC_TABLE location should be mirrored in:
-;   BL FW's USB_BL_Defs.h (APP_START_PAGE)
-;   App FW's STARTUP.A51, Compiler and Linker command lines
+;------ Custom bootloader code
 PUBLIC START_APPLICATION            ;The entry point (relocated reset vector)
-;START_APPLICATION     EQU  0200h    ;for the application FW project
-START_APPLICATION     EQU  0400h    ;added extra page for the larger bootloader
+START_APPLICATION     EQU  0400h    ;for the application FW project
+;------ End custom bootloader code
+
 
                 NAME    ?C_STARTUP
 
