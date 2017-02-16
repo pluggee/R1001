@@ -65,6 +65,7 @@ Byte offset (from last byte) - Field
 
 // Reverse byte order for Keil:
 SEGMENT_VARIABLE(TGT_App_InfoBlock[], const U8, SEG_CODE) =
+//SEGMENT_VARIABLE(INFOBLOCK[], const U8, SEG_XDATA) =
 {
 	SMBUS_DEVICE_ADDR,
 	APP_FW_VERSION_HIGH,

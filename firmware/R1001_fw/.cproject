@@ -31,7 +31,7 @@
 							<option id="com.silabs.ide.si8051.keil.toolchain.category.general.extended_assembler.1071587710" name="Use Extended Assembler (AX51) instead of A51" superClass="com.silabs.ide.si8051.keil.toolchain.category.general.extended_assembler" value="true" valueType="boolean"/>
 							<targetPlatform binaryParser="com.silabs.ide.si8051.debug.omf.OMF;com.silabs.ide.si8051.debug.omf.OMF2;com.silabs.ide.debug.core.BIN;com.silabs.ide.debug.core.HEX;com.silabs.ide.debug.core.S37" id="com.silabs.ide.si8051.keil.targetplatform.1278935266" isAbstract="false" superClass="com.silabs.ide.si8051.keil.targetplatform"/>
 							<builder buildPath="${workspace_loc:/R1001_fw}/Keil 8051 v9.53 - Debug" id="com.silabs.ide.si8051.keil.builder.367967681" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Keil Builder" parallelBuildOn="false" superClass="com.silabs.ide.si8051.keil.builder"/>
-							<tool commandLinePattern="${COMMAND} ${INPUTS} ${FLAGS} INTVECTOR(0x400) INTERVAL(3)" id="com.silabs.ide.si8051.keil.toolchain.compiler.1006844366" name="Keil 8051 Compiler" superClass="com.silabs.ide.si8051.keil.toolchain.compiler">
+							<tool commandLinePattern="${COMMAND} ${INPUTS} ${FLAGS} " id="com.silabs.ide.si8051.keil.toolchain.compiler.1006844366" name="Keil 8051 Compiler" superClass="com.silabs.ide.si8051.keil.toolchain.compiler">
 								<option id="com.silabs.ide.si8051.keil.compiler.category.symbols.def.1879020163" name="Defined symbols (DEFINE(...))" superClass="com.silabs.ide.si8051.keil.compiler.category.symbols.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG=1"/>
 								</option>
@@ -43,6 +43,8 @@
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Device/EFM8BB1&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Device/EFM8BB1/inc&quot;"/>
 								</option>
+								<option id="com.silabs.ide.si8051.keil.compiler.category.general.vectors.862223807" name="Interrupt vectors at address" superClass="com.silabs.ide.si8051.keil.compiler.category.general.vectors" value="0x0400" valueType="string"/>
+								<option id="com.silabs.ide.si8051.keil.compiler.category.misc.extraflags.1306584000" name="Additional Flags" superClass="com.silabs.ide.si8051.keil.compiler.category.misc.extraflags" value="INTERVAL(3)" valueType="string"/>
 								<inputType id="com.silabs.ide.si8051.keil.compiler.inputType.921632954" superClass="com.silabs.ide.si8051.keil.compiler.inputType"/>
 							</tool>
 							<tool command="AX51" id="com.silabs.ide.si8051.keil.toolchain.assembler.2130008782" name="Keil 8051 Assembler" superClass="com.silabs.ide.si8051.keil.toolchain.assembler">
@@ -55,7 +57,9 @@
 								</option>
 								<inputType id="com.silabs.ide.si8051.keil.assembler.inputType.700798708" superClass="com.silabs.ide.si8051.keil.assembler.inputType"/>
 							</tool>
-							<tool command="BL51" commandLinePattern="${COMMAND} ${INPUTS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${FLAGS} CODE(0x400-0x01DFF, ?CO?INFOBLOCK(0x1DF5))" id="com.silabs.ide.si8051.keil.toolchain.linker.2010337281" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker">
+							<tool command="LX51" commandLinePattern="${COMMAND} ${INPUTS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${FLAGS} " id="com.silabs.ide.si8051.keil.toolchain.linker.2010337281" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker">
+								<option id="com.silabs.ide.si8051.keil.linker.category.ordering.selection.319384175" name="Linker input ordering" superClass="com.silabs.ide.si8051.keil.linker.category.ordering.selection" value="./src/InfoBlock.OBJ;./src/InitDevice.OBJ;./src/Interrupts.OBJ;./src/R1001_fw_main.OBJ;./src/SILABS_STARTUP.OBJ;./src/drv8825.OBJ;./src/i2c.OBJ" valueType="string"/>
+								<option id="com.silabs.ide.si8051.keil.linker.category.misc.extraflags.1526215967" name="Additional Flags" superClass="com.silabs.ide.si8051.keil.linker.category.misc.extraflags" value="CLASSES(CODE (C:0x400-C:0x1DFF)) SEGMENTS(?CO?INFOBLOCK (C:0x1DF5))" valueType="string"/>
 								<inputType id="com.silabs.ide.si8051.keil.linker.inputType.2129362376" superClass="com.silabs.ide.si8051.keil.linker.inputType"/>
 							</tool>
 							<tool id="com.silabs.ide.si8051.keil.toolchain.librarian.309870249" name="Keil 8051 Library Manager" superClass="com.silabs.ide.si8051.keil.toolchain.librarian"/>
@@ -68,6 +72,7 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="com.silabs.ss.framework.ide.project.core.cpp"/>
 		</cconfiguration>
 		<cconfiguration id="com.silabs.ide.si8051.keil.release#com.silabs.ide.si8051.keil:9.53.0">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.silabs.ide.si8051.keil.release#com.silabs.ide.si8051.keil:9.53.0" moduleId="org.eclipse.cdt.core.settings" name="Keil 8051 v9.53 - Release">
@@ -135,11 +140,12 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="com.silabs.ss.framework.ide.project.core.cpp"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="com.silabs.ide.project.core" projectCommon.buildArtifactType="EXE" projectCommon.importModeId="COPY" projectCommon.kitId="com.silabs.kit.si8051.efm8bb1_slstk2020a" projectCommon.partId="com.silabs.mcu.si8051.efm8bb1_g.efm8bb10f8g" projectCommon.sdkId="com.silabs.sdk.si8051.sls:3.0.0"/>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="R1001_fw.com.silabs.ide.project.core.cdt.cdtMbsProjectType.965266509" name="SLS CDT Project" projectType="com.silabs.ide.project.core.cdt.cdtMbsProjectType"/>
+		<project id="R1001_fw.com.silabs.ide.project.core.cdt.cdtMbsProjectType.965266509" name="SLS CDT Project"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="scannerConfiguration">
@@ -151,5 +157,13 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.silabs.ide.si8051.keil.KeilScannerInfoCollector"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Keil 8051 v9.53 - Release">
+			<resource resourceType="PROJECT" workspacePath="/R1001_fw"/>
+		</configuration>
+		<configuration configurationName="Keil 8051 v9.53 - Debug">
+			<resource resourceType="PROJECT" workspacePath="/R1001_fw"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="com.silabs.ss.framework.ide.project.core.cpp"/>
 </cproject>
