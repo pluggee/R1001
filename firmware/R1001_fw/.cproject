@@ -59,7 +59,7 @@
 							</tool>
 							<tool command="LX51" commandLinePattern="${COMMAND} ${INPUTS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${FLAGS} " id="com.silabs.ide.si8051.keil.toolchain.linker.2010337281" name="Keil 8051 Linker" superClass="com.silabs.ide.si8051.keil.toolchain.linker">
 								<option id="com.silabs.ide.si8051.keil.linker.category.ordering.selection.319384175" name="Linker input ordering" superClass="com.silabs.ide.si8051.keil.linker.category.ordering.selection" value="./src/InfoBlock.OBJ;./src/InitDevice.OBJ;./src/Interrupts.OBJ;./src/R1001_fw_main.OBJ;./src/SILABS_STARTUP.OBJ;./src/drv8825.OBJ;./src/i2c.OBJ" valueType="string"/>
-								<option id="com.silabs.ide.si8051.keil.linker.category.misc.extraflags.1526215967" name="Additional Flags" superClass="com.silabs.ide.si8051.keil.linker.category.misc.extraflags" value="CLASSES(CODE (C:0x400-C:0x1DFF)) SEGMENTS(?CO?INFOBLOCK (C:0x1DF5))" valueType="string"/>
+								<option id="com.silabs.ide.si8051.keil.linker.category.misc.extraflags.1526215967" name="Additional Flags" superClass="com.silabs.ide.si8051.keil.linker.category.misc.extraflags" value="CLASSES(CODE (C:0x400-C:0x1DFF)) OVERLAY(* ! ?CO?INFOBLOCK) SEGMENTS(?CO?INFOBLOCK (C:0x1DF5))" valueType="string"/>
 								<inputType id="com.silabs.ide.si8051.keil.linker.inputType.2129362376" superClass="com.silabs.ide.si8051.keil.linker.inputType"/>
 							</tool>
 							<tool id="com.silabs.ide.si8051.keil.toolchain.librarian.309870249" name="Keil 8051 Library Manager" superClass="com.silabs.ide.si8051.keil.toolchain.librarian"/>
