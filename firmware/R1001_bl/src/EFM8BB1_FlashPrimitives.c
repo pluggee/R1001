@@ -22,6 +22,7 @@
 //-----------------------------------------------------------------------------
 #include <SI_EFM8BB1_Register_Enums.h>
 #include "EFM8BB1_FlashPrimitives.h"
+#include <compiler_defs.h>
 
 //-----------------------------------------------------------------------------
 // Function Prototypes
@@ -48,7 +49,7 @@ void          FLASH_PageErase (FLADDR addr);
 void FLASH_ByteWrite (FLADDR addr, uint8_t byte)
 {
    bit EA_SAVE = IE_EA;                // Preserve IE_EA
-   uint8_t xdata * data pwrite;           // Flash write pointer
+   uint8_t xdata * data pwrite;        // Flash write pointer
 
    IE_EA = 0;                          // Disable interrupts
 
@@ -71,6 +72,23 @@ void FLASH_ByteWrite (FLADDR addr, uint8_t byte)
 
    IE_EA = EA_SAVE;                    // Restore interrupts
 }
+
+//void FLASH_ByteWrite(FLADDR addr, uint8_t byte)
+//{
+//
+//    // *** Device-Specific ***
+//    // ** IMPORTANT ** When modifying flash primitive functions to fit in this
+//    // template, it is important to remove the literal flash key values and use
+//    // the global variables Flash_Key0 and Flash_Key1 instead.
+//
+//    VDM0CN = 0xA0; // Enable VDD monitor and high threshold
+//    RSTSRC = 0x02; // Enable VDD monitor as a reset source
+//
+//    FLKEY = 0xA5; // Key Sequence 1
+//    FLKEY = 0xF1; // Key Sequence 2
+//    *((U8 xdata *) addr) = byte;
+//    PSCTL &= ~0x03; // PSWE = 0 which disable writes
+//}
 
 //-----------------------------------------------------------------------------
 // FLASH_ByteRead

@@ -31,6 +31,10 @@
 #define TGT_CMD_ERASE_FLASH_PAGE    0x05
 #define TGT_CMD_WRITE_FLASH_BYTES   0x06
 #define TGT_CMD_READ_FLASH_BYTES    0x07
+#define TGT_CMD_CHECK_SIG           0x08
+#define TGT_CMD_CHECK_BLSTAT        0x0B
+#define TGT_CMD_START_APPFW         0x0C
+
 //#define TGT_CMD_ENTER_BL_MODE       0x05
 
 // ---------------------------------
@@ -45,7 +49,9 @@
 
 // bootloader response functions
 void Set_TX_TGT_RSP_OK(void);
+void Set_TX_TGT_RSP_ERROR(void);
 void Set_TX_TGT_RSP_UNSUPPORTED_CMD (void);
+void Set_TX_TGT_BLSTAT(void);
 void TGT_Pre_Flash(void);
 void TGT_Erase_Page(void);
 void TGT_Write_Flash(void);
@@ -55,6 +61,7 @@ void TGT_Read_Flash(void);
 void START_APPLICATION(void);
 
 bool ValidAppAddr(U16);
+bool CheckSignature(void);              // check application firmware signature
 
 extern U8 Flash_Key0;
 extern U8 Flash_Key1;

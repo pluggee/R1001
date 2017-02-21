@@ -29,6 +29,20 @@ void Set_TX_TGT_RSP_OK(void)
 }
 
 //-----------------------------------------------------------------------------
+// Set_TX_TGT_RSP_ERROR
+//-----------------------------------------------------------------------------
+//
+// Return Value:  None
+// Parameters:    None
+//
+// Sets TX response code to TGT_RSP_ERROR.
+//-----------------------------------------------------------------------------
+void Set_TX_TGT_RSP_ERROR(void)
+{
+    SMB_DATA_OUT[0] = TGT_RSP_ERROR;
+}
+
+//-----------------------------------------------------------------------------
 // Set_TX_TGT_RSP_UNSUPPORTED_CMD
 //-----------------------------------------------------------------------------
 //
@@ -55,6 +69,20 @@ void Set_TX_TGT_RSP_ADDR_INVALID (void)
 {
     // Invalid application address
     SMB_DATA_OUT[0] = TGT_RSP_ADDR_INVALID;
+}
+
+//-----------------------------------------------------------------------------
+// Set_TX_TGT_BLSTAT
+//-----------------------------------------------------------------------------
+//
+// Return Value:  None
+// Parameters:    None
+//
+// Sets TX response code to BLSTAT value.
+//-----------------------------------------------------------------------------
+void Set_TX_TGT_BLSTAT(void)
+{
+    SMB_DATA_OUT[0] = TGT_RSP_BL_MODE;
 }
 
 //-----------------------------------------------------------------------------
@@ -138,10 +166,10 @@ void TGT_Write_Flash(void)
     // [5] numbytes
 
     // Bytes to write:
-    // [0] byte0
-    // [1] byte1
+    // [6] byte0
+    // [7] byte1
     // [.] ...
-    // [numbytes-1] byte(numbytes-1)
+    // [6+numbytes-1] byte(numbytes-1)
 
     // Response:
     // [0] Response code
@@ -158,12 +186,11 @@ void TGT_Write_Flash(void)
     TGT_Pre_Flash();
 
     // check for the whole range of address
-    if (ValidAppAddr(start_addr.U16) & ValidAppAddr(start_addr.U16 + numbytes))
+    if (ValidAppAddr(start_addr.U16) & ValidAppAddr(start_addr.U16 + numbytes - 1))
     {
         while (numbytes--)
         {
             FLASH_ByteWrite(start_addr.U16, *(Rx_Buf_ptr));
-
             Rx_Buf_ptr++;
             start_addr.U16++;
         }
@@ -213,21 +240,30 @@ void TGT_Read_Flash(void)
     TGT_Pre_Flash();
 
     // check for the whole range of address
-    if (ValidAppAddr(start_addr.U16) & ValidAppAddr(start_addr.U16 + numbytes))
+//    if (ValidAppAddr(start_addr.U16) & ValidAppAddr(start_addr.U16 + numbytes))
+//    {
+//        while (numbytes--)
+//        {
+//            SMB_DATA_OUT[Tx_Buf_ptr] = FLASH_ByteRead(start_addr.U16);
+//
+//            Tx_Buf_ptr++;
+//            start_addr.U16++;
+//        }
+//        Set_TX_TGT_RSP_OK();
+//    }
+//    else
+//    {
+//        Set_TX_TGT_RSP_ADDR_INVALID();
+//    }
+    // check for the whole range of address
+    while (numbytes--)
     {
-        while (numbytes--)
-        {
-            SMB_DATA_OUT[Tx_Buf_ptr] = FLASH_ByteRead(start_addr.U16);
+        SMB_DATA_OUT[Tx_Buf_ptr] = FLASH_ByteRead(start_addr.U16);
 
-            Tx_Buf_ptr++;
-            start_addr.U16++;
-        }
-        Set_TX_TGT_RSP_OK();
+        Tx_Buf_ptr++;
+        start_addr.U16++;
     }
-    else
-    {
-        Set_TX_TGT_RSP_ADDR_INVALID();
-    }
+    Set_TX_TGT_RSP_OK();
 }
 
 // This function checks if the address is valid
@@ -242,4 +278,34 @@ bool ValidAppAddr(U16 addr)
         return false;
     }
 
+}
+
+bool CheckSignature(void){
+    // Checks application firmware signature
+    // if good returns true
+    U8 code* codeptr;
+    //---------------------------------------
+    // Check the bootloader consition.
+    //---------------------------------------
+    codeptr = (U8 code*)(APP_FW_SIG0_ADDR);
+   // The Signature (in Flash) should be valid to allow application FW execution.
+   // This is written at the end of the bootloading process by the bootloader.
+    if (*codeptr == SIG_BYTE0)
+    {
+        *codeptr--;
+        if (*codeptr == SIG_BYTE1)
+        {
+            *codeptr--;
+            if (*codeptr == SIG_BYTE2)
+            {
+                *codeptr--;
+                if (*codeptr == SIG_BYTE3)
+                {
+                    // All signature bytes match.
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

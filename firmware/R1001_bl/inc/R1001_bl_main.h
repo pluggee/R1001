@@ -13,7 +13,7 @@
 // -----------------------------------
 #define TGT_BL_VER              0x10
 
-#define TGT_BL_BUF_SIZE         40                  // Size of bootloader RX buffer (bytes; should be powers of 2)
+#define TGT_BL_BUF_SIZE         40                 // Size of bootloader RX buffer (bytes; should be powers of 2)
 // min: 2^5 = 32; max: 2^14 = 16384; 2^15 = RESERVED.
 
 //#define TGT_BL_BUF_SIZE_CODE     0x05  // BL Buffer Size Code.
