@@ -24,5 +24,6 @@
 
 
 void SetI2CSlaveAddress (void);
+void SMBHandler(void);
 
 #endif /* SMB_H_ */

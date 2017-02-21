@@ -110,11 +110,79 @@ SP      DATA    81H
 DPL     DATA    82H
 DPH     DATA    83H
 
-;------ Custom bootloader code
+;******************************************************************************
+; Begin custom code for SMB_BL - Target_BL_FW ->
+;******************************************************************************
+
+;------------------------------------------------------------------------------
+; Redirects the HW interrupt vectors to a jump table starting at INTVEC_TABLE.
+; This table will always be part of the App_FW space and can be modified by the
+; bootloader's ERASE and WRITE commands.
+
+;HW Interrupt Entries
+HW_INTVEC_TABLE       EQU 0003h     ;HW Interrupt vector table starts here
+HW_INTVEC_SEPARATION  EQU 8         ;HW Interrupt vector separation is 8 Bytes
+
+;Redirected Interrupt Entries
+;Changes to INTVEC_TABLE location should be mirrored in:
+;   BL FW's USB_BL_Defs.h (APP_START_PAGE)
+;   App FW's STARTUP.A51, Compiler and Linker command lines
 PUBLIC START_APPLICATION            ;The entry point (relocated reset vector)
 START_APPLICATION     EQU  0400h    ;for the application FW project
-;------ End custom bootloader code
 
+INTVEC_TABLE          EQU  START_APPLICATION+3  ;Interrupt vector table starts here
+INTVEC_SEPARATION     EQU  3        ;Interrupt vector separation is 3 Bytes
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 0)  ;03h (Intr. 00)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 0)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 1)  ;0Bh (Intr. 01)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 1)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 2)  ;13h (Intr. 02)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 2)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 3)  ;1Bh (Intr. 03)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 3)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 4)  ;23h (Intr. 04)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 4)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 5)  ;2Bh (Intr. 05)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 5)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 6)  ;33h (Intr. 06)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 6)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 7)  ;3Bh (Intr. 07)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 7)
+
+;      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 8)  ;43h (Intr. 08)
+;      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 8)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 9)  ;4Bh (Intr. 09)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 9)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 10) ;53h (Intr. 10)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 10)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 11) ;5Bh (Intr. 11)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 11)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 12) ;63h (Intr. 12)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 12)
+
+;      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 13) ;6Bh (Intr. 13)
+;      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 13)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 14) ;73h (Intr. 14)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 14)
+
+
+;******************************************************************************
+;End of custom code <-
+;Unmodified Keil STARTUP.A51 code continues below ->
+;******************************************************************************
 
                 NAME    ?C_STARTUP
 

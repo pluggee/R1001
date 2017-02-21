@@ -36,7 +36,7 @@
 									<listOptionValue builtIn="false" value="DEBUG=1"/>
 								</option>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.1889799433" name="Emphasis" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis" value="com.silabs.ide.si8051.keil.compiler.category.optimization.emphasis.speed" valueType="enumerated"/>
-								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.level.1040972440" name="Level" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.level"/>
+								<option id="com.silabs.ide.si8051.keil.compiler.category.optimization.level.1040972440" name="Level" superClass="com.silabs.ide.si8051.keil.compiler.category.optimization.level" value="com.silabs.ide.si8051.keil.compiler.category.optimization.level.8" valueType="enumerated"/>
 								<option id="com.silabs.ide.si8051.keil.compiler.category.includes.paths.94376758" name="Include paths (INCDIR(...))" superClass="com.silabs.ide.si8051.keil.compiler.category.includes.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${StudioSdkPath}/Device/shared/si8051Base&quot;"/>

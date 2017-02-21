@@ -42,51 +42,29 @@ int main(void)
     // Call hardware initialization routine
 //    enter_DefaultMode_from_RESET();
 
-    char trigappmode = 0x00;        //FIXME delete
+//    char trigappmode = 0x00;        //FIXME delete
 
-    U8 device_mode = BOOTLOADER_MODE;
-//    U8 code* codeptr;
-//    //---------------------------------------
-//    // Check the bootloader consition.
-//    //---------------------------------------
-//    codeptr = (U8 code*)(APP_FW_SIG0_ADDR);
-//   // The Signature (in Flash) should be valid to allow application FW execution.
-//   // This is written at the end of the bootloading process by the bootloader.
-//    if (*codeptr == SIG_BYTE0)
-//    {
-//        *codeptr--;
-//        if (*codeptr == SIG_BYTE1)
-//        {
-//            *codeptr--;
-//            if (*codeptr == SIG_BYTE2)
-//            {
-//                *codeptr--;
-//                if (*codeptr == SIG_BYTE3)
-//                {
-//                    // All signature bytes match.
-//                    device_mode = APP_MODE;
-//                }
-//            }
-//        }
+//    U8 device_mode = BOOTLOADER_MODE;
+
+    // put module in application mode if firmware signature is good
+//    if (CheckSignature()){
+//        device_mode = APP_MODE;
 //    }
-    if (CheckSignature()){
-        device_mode = APP_MODE;
-    }
 
-    // Enter bootloader mode on flash error reset
-    if ((RSTSRC & 0x40) != 0)
-    {
-        // Check to see if the last reset was a flash error reset
-        device_mode = BOOTLOADER_MODE;
-        trigappmode = 0x3C; //FIXME, delete
-    }
+//    // Enter bootloader mode on flash error reset
+//    if ((RSTSRC & 0x40) != 0)
+//    {
+//        // Check to see if the last reset was a flash error reset
+//        device_mode = BOOTLOADER_MODE;
+//        trigappmode = 0x3C; //FIXME, delete
+//    }
 
-    if (device_mode == APP_MODE)
-    {
-        // If not in BL Override, jump to application
-        START_APPLICATION();
-        trigappmode = 0xBA; // FIXME delete
-    }
+//    if (device_mode == APP_MODE)
+//    {
+//        // If not in BL Override, jump to application
+//        START_APPLICATION();
+//        trigappmode = 0xBA; // FIXME delete
+//    }
 
     //-------------------------------------------
     // ** BL Mode ** Initialize MCU and Variables
@@ -103,7 +81,9 @@ int main(void)
     while (1)
     {
         // Wait until a command is received
-        while (!DATA_READY);             // New SMBus data received? gets out of the loop with a command transfer is complete
+        while (!DATA_READY){
+            SMBHandler();
+        }
 
         DATA_READY = 0;
 
@@ -134,14 +114,19 @@ int main(void)
                 Set_TX_TGT_BLSTAT();
                 break;
             case TGT_CMD_START_APPFW:
-                START_APPLICATION();
+                if (CheckSignature()){
+                    START_APPLICATION();
+                }
+                else{
+                    Set_TX_TGT_RSP_ERROR();
+                }
                 break;
             // FIXME delete this case
             // add temporary debug var
-            case 0x40:
-                SMB_DATA_OUT[0] = trigappmode;
-                SMB_DATA_OUT[1] = RSTSRC;
-                break;
+//            case 0x40:
+//                SMB_DATA_OUT[0] = trigappmode;
+//                SMB_DATA_OUT[1] = RSTSRC;
+//                break;
             default:
                 Set_TX_TGT_RSP_UNSUPPORTED_CMD();
                 break;
