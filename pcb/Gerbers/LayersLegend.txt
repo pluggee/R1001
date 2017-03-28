@@ -1,0 +1,14 @@
+R1001-F.Cu.gbr        Front (Top) layer copper
+R1001-In1.Cu.gbr      Inner 1 layer copper
+R1001-In2.Cu.gbr      Inner 2 layer copper
+R1001-F.Adhes.gbr     Front (Top) layer adhesive
+R1001-B.Cu.gbr        Back (Bottom) layer copper
+R1001-F.Paste.gbr     Front (Top) Solder Paste
+R1001-B.Paste.gbr     Back (Bottom) Solder Paste
+R1001-B.SilkS.gbr     Back (Bottom) Silk Screen
+R1001-F.SilkS.gbr     Front (Top) Silk Screen
+R1001-F.Mask.gbr      Front (Top) Solder Mask
+R1001-B.Mask.gbr      Back (Bottom) Solder Mask
+R1001-Edge.Cuts.gbr   Edge Cut (routing cut)
+R1001-NPTH.drl        Non-Plated through hole drills
+R1001.drl             Plated through hole drills
