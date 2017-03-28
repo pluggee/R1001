@@ -3,7 +3,7 @@
   (general
     (links 176)
     (no_connects 0)
-    (area 124.924999 69.924999 170.075001 103.375001)
+    (area 123.225 67.573799 172.225001 103.524461)
     (thickness 1.6)
     (drawings 31)
     (tracks 615)
@@ -1860,7 +1860,7 @@
   (gr_text "plugg.ee Labs LLC\nSan Jose, CA 2017" (at 126.8 91.3) (layer F.SilkS)
     (effects (font (size 0.7 0.7) (thickness 0.15)) (justify left))
   )
-  (gr_text "R1001 v1.3\nDRV8825 Stepper Motor Driver\nhttp://plugg.ee" (at 169.375 72.325) (layer F.SilkS)
+  (gr_text "R1001 v1.1\nDRV8825 Stepper Motor Driver\nhttp://plugg.ee" (at 169.375 72.325) (layer F.SilkS)
     (effects (font (size 0.7 0.7) (thickness 0.15)) (justify right))
   )
   (gr_arc (start 169.6 70.4) (end 170 70.4) (angle -90) (layer Edge.Cuts) (width 0.15) (tstamp 575A0A41))
