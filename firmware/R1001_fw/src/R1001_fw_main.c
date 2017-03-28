@@ -8,6 +8,7 @@
 #include "drv8825.h"
 #include "i2c.h"
 #include "global.h"
+#include "InfoBlock.h"
 
 // $[Generated Includes]
 // [Generated Includes]$
@@ -17,7 +18,6 @@
 //-----------------------------------------------------------------------------
 #define PLATFORM    0x01        // platform ID, 0x01 for R1000A
 #define DEVID       0x01        // device ID, 0x01 for R1001 stepper motor driver
-#define FWVER       0x01        // firmware build
 //-----------------------------------------------------------------------------
 // Global Variables
 //-----------------------------------------------------------------------------
@@ -61,26 +61,34 @@ int main (void)
 
 		// now we look at the contents of the data in the buffer and act accordingly
 		switch(SMB_DATA_IN[0]){
-		case 0x01:
+		case TGT_CMD_RESET_MCU:
+		    // soft reset MCU
+		    RSTSRC = 0x12;                  // Initiate software reset with vdd monitor enabled
+		    break;
+		case TGT_CMD_PLID:
 			// Return platform ID
 			// Prepare buffer with ID string
 			SMB_DATA_OUT[0] = PLATFORM;     // Platform ID
 			break;
-		case 0x02:
+		case TGT_CMD_DVID:
 			// Return device ID
 			// Prepare buffer with ID string
 			SMB_DATA_OUT[0] = DEVID;        // device ID
 			break;
-		case 0x03:
+		case TGT_CMD_FWID:
 			// Return firmware VER
 			// Prepare buffer with ID string
-			SMB_DATA_OUT[0] = FWVER;        // firmware version
+			SMB_DATA_OUT[0] = APP_FW_VERSION_LOW;           // firmware version - low byte
+			SMB_DATA_OUT[1] = APP_FW_VERSION_HIGH;          // firmware version - high byte
 			break;
-		case 0x10:
+		case TGT_CMD_TMP:
             // This reads out the temperature value
             SMB_DATA_OUT[0] = temp_val;
             break;
-		case 0x20:
+		case TGT_CMD_BLSTAT:
+		    SMB_DATA_OUT[0] = 0x00;                         // indicating application mode
+		    break;
+		case TGT_CMD_STP:
 			// Set stepper motor stepping resolution
 			// This is a command to change stepping resolution, set it to the value stored in SMB_DATA_IN[1]
 		    if (writelen > 1){
@@ -93,7 +101,7 @@ int main (void)
 		    SMB_DATA_OUT[0] = StepRes;
 		    // limit the range of StepRes
 			break;
-		case 0x21:
+		case TGT_CMD_IDRVL:
 		    // here we check if writing to IDRVL and IDRVH
 		    if (writelen == 2){
                 // only write IDRVL
@@ -111,7 +119,7 @@ int main (void)
 		    SMB_DATA_OUT[0] = IDRVL;
 			SMB_DATA_OUT[1] = IDRVH;
 			break;
-		case 0x22:
+		case TGT_CMD_IDRVH:
             // here we check if writing to IDRVH
             if (writelen > 1){
                 // only write IDRVH
@@ -121,7 +129,7 @@ int main (void)
             // Store IDRVH value in output buffer
             SMB_DATA_OUT[0] = IDRVH;
 			break;
-		case 0x23:
+		case TGT_CMD_MCTL:
 		    // Stepper driver control register
 		    if (writelen > 1){
                 // parse input and execute values
@@ -130,7 +138,7 @@ int main (void)
             }
 		    SMB_DATA_OUT[0] = MCTL;             // place refreshed MCTL value in output buffer
 		    break;
-		case 0x24:
+		case TGT_CMD_MSTAT:
 		    // refresh status register before pushing it out
 		    RefreshMSTAT();
             SMB_DATA_OUT[0] = MSTAT;             // place refreshed MCTL value in output buffer

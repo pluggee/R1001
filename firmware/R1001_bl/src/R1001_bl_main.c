@@ -40,32 +40,6 @@ uint8_t SMB_DATA_OUT[TGT_BL_BUF_SIZE];
 int main(void)
 {
     // Call hardware initialization routine
-//    enter_DefaultMode_from_RESET();
-
-//    char trigappmode = 0x00;        //FIXME delete
-
-//    U8 device_mode = BOOTLOADER_MODE;
-
-    // put module in application mode if firmware signature is good
-//    if (CheckSignature()){
-//        device_mode = APP_MODE;
-//    }
-
-//    // Enter bootloader mode on flash error reset
-//    if ((RSTSRC & 0x40) != 0)
-//    {
-//        // Check to see if the last reset was a flash error reset
-//        device_mode = BOOTLOADER_MODE;
-//        trigappmode = 0x3C; //FIXME, delete
-//    }
-
-//    if (device_mode == APP_MODE)
-//    {
-//        // If not in BL Override, jump to application
-//        START_APPLICATION();
-//        trigappmode = 0xBA; // FIXME delete
-//    }
-
     //-------------------------------------------
     // ** BL Mode ** Initialize MCU and Variables
     //-------------------------------------------
