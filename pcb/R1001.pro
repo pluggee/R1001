@@ -1,4 +1,4 @@
-update=Tue 29 Nov 2016 03:18:37 PM PST
+update=Mon 27 Mar 2017 10:24:08 PM PDT
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,6 +25,16 @@ version=1
 NetIExt=net
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=/home/sherif/git/KiCADLibs/wks/B11X17_landscape.kicad_wks
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
 [eeschema]
 version=1
 LibDir=$HOME/git/KiCADLibs/sch
@@ -38,3 +48,8 @@ LibName6=conn
 LibName7=electromechanical
 LibName8=logic
 LibName9=devices
+LibName10=cap_smd
+LibName11=cap_smd_extra
+LibName12=res_smd
+LibName13=res_smd_extra
+LibName14=systems
