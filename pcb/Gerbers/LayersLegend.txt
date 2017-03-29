@@ -12,3 +12,5 @@ R1001-B.Mask.gbr      Back (Bottom) Solder Mask
 R1001-Edge.Cuts.gbr   Edge Cut (routing cut)
 R1001-NPTH.drl        Non-Plated through hole drills
 R1001.drl             Plated through hole drills
+R1001-top.pos         Front (Top) component position file (SMT assembly)
+R1001-bot.pos         Back (Bottom) component position file (SMT assembly)
