@@ -2,7 +2,7 @@
 <export version="D">
   <design>
     <source>/home/sherif/git/R1001/pcb/R1001.sch</source>
-    <date>Mon 27 Mar 2017 11:28:32 PM PDT</date>
+    <date>Fri 31 Mar 2017 02:44:37 PM PDT</date>
     <tool>Eeschema 4.0.6-e0-6349~53~ubuntu14.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -25,6 +25,7 @@
       <fields>
         <field name="Manufacturer">Amphenol FCI</field>
         <field name="MPN">10018784-10200TLF</field>
+        <field name="SKU">STUFF</field>
       </fields>
       <libsource lib="connect" part="PCIEXPRESS-X1"/>
       <sheetpath names="/" tstamps="/"/>
@@ -48,6 +49,7 @@
       <fields>
         <field name="Manufacturer">Silicon Labs</field>
         <field name="MPN">EFM8BB10F2G-A-QFN20R</field>
+        <field name="SKU">STUFF</field>
       </fields>
       <libsource lib="microcontroller" part="EFM8BB10F2G"/>
       <sheetpath names="/" tstamps="/"/>
@@ -75,6 +77,7 @@
       <fields>
         <field name="Manufacturer">Molex</field>
         <field name="MPN">70553-0038</field>
+        <field name="SKU">STUFF</field>
       </fields>
       <libsource lib="connect" part="CONN_01X04"/>
       <sheetpath names="/" tstamps="/"/>
@@ -86,7 +89,7 @@
       <fields>
         <field name="Manufacturer">Sullins Connector Solutions</field>
         <field name="MPN">GRPB032MWCN-RC</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
       </fields>
       <libsource lib="connect" part="SOCKMALE_02x03"/>
       <sheetpath names="/" tstamps="/"/>
@@ -98,7 +101,7 @@
       <fields>
         <field name="Manufacturer">Sullins Connector Solutions</field>
         <field name="MPN">GRPB032MWCN-RC</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
       </fields>
       <libsource lib="connect" part="SOCKMALE_02x03"/>
       <sheetpath names="/" tstamps="/"/>
@@ -146,7 +149,7 @@
       <fields>
         <field name="Manufacturer">TE Connectivity AMP Connectors</field>
         <field name="MPN">3-644456-3</field>
-        <field name="SKU">NOSTUFF</field>
+        <field name="SKU">DNI</field>
       </fields>
       <libsource lib="connect" part="CONN_01X03"/>
       <sheetpath names="/" tstamps="/"/>
@@ -158,7 +161,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX7R9BB104</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">100 nF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">50.0V</field>
@@ -174,7 +177,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX7R9BB104</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">100 nF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">50.0V</field>
@@ -190,7 +193,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-071ML</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">1.00 MΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -205,7 +208,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX7R9BB104</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">100 nF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">50.0V</field>
@@ -221,7 +224,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -236,7 +239,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX5R6BB105</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">1.00 µF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">10.0V</field>
@@ -252,7 +255,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX7R9BB103</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">10.0 nF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">50.0V</field>
@@ -268,7 +271,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX5R6BB105</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">1.00 µF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">10.0V</field>
@@ -284,7 +287,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -299,7 +302,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -314,7 +317,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -329,7 +332,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -344,7 +347,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -359,7 +362,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -374,7 +377,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -389,7 +392,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -404,7 +407,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -419,7 +422,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-071KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">1.00 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -434,7 +437,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-071KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">1.00 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -449,7 +452,7 @@
       <fields>
         <field name="Manufacturer">Panasonic Electronic Components</field>
         <field name="MPN">ERJ-8CWFR050V</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">0.05 Ω</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">1W</field>
@@ -464,7 +467,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-072K8L</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">2.80 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -479,7 +482,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -494,7 +497,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0715KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">15.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -509,7 +512,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -524,7 +527,7 @@
       <fields>
         <field name="Manufacturer">Stackpole Electronics Inc.</field>
         <field name="MPN">RHC2512FTR250</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">0.25 Ω</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">2W</field>
@@ -539,7 +542,7 @@
       <fields>
         <field name="Manufacturer">Stackpole Electronics Inc.</field>
         <field name="MPN">RHC2512FTR250</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">0.25 Ω</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">2W</field>
@@ -554,7 +557,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">RC0603FR-0710KL</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="Res">10.0 kΩ</field>
         <field name="Tol">±1%</field>
         <field name="Pwr">100 mW</field>
@@ -576,7 +579,7 @@
       <fields>
         <field name="Manufacturer">Yageo</field>
         <field name="MPN">CC0603KRX7R9BB104</field>
-        <field name="SKU">STUFF</field>
+        <field name="SKU">GENERIC</field>
         <field name="C">100 nF</field>
         <field name="Tol">±10%</field>
         <field name="Vmax">50.0V</field>
@@ -613,6 +616,20 @@
       <libsource lib="systems" part="FIDTOP001"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>58DA1B3B</tstamp>
+    </comp>
+    <comp ref="FID5">
+      <value>FIDTOP001</value>
+      <footprint>Main:FIDTOP001</footprint>
+      <libsource lib="systems" part="FIDTOP001"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58DC1E02</tstamp>
+    </comp>
+    <comp ref="FID6">
+      <value>FIDTOP001</value>
+      <footprint>Main:FIDTOP001</footprint>
+      <libsource lib="systems" part="FIDTOP001"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58DC1EC9</tstamp>
     </comp>
   </components>
   <libparts>
@@ -1089,11 +1106,11 @@
     <library logical="device">
       <uri>/usr/share/kicad/library/device.lib</uri>
     </library>
-    <library logical="connect">
-      <uri>/home/sherif/git/KiCADLibs/sch/connect.lib</uri>
-    </library>
     <library logical="microcontroller">
       <uri>/home/sherif/git/KiCADLibs/sch/microcontroller.lib</uri>
+    </library>
+    <library logical="connect">
+      <uri>/home/sherif/git/KiCADLibs/sch/connect.lib</uri>
     </library>
     <library logical="logic">
       <uri>/home/sherif/git/KiCADLibs/sch/logic.lib</uri>
