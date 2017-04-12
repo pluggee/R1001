@@ -1,4 +1,4 @@
-### Module positions - created on Wed Mar 29 13:27:21 2017 ###
+### Module positions - created on Wed Apr 12 13:40:55 2017 ###
 ### Printed by Pcbnew version kicad 4.0.6-e0-6349~53~ubuntu14.04.1
 ## Unit = mm, Angle = deg.
 ## Side : bottom
@@ -17,5 +17,5 @@ R19       RC0603FR-071KL     RESC0603                        138.6250   -91.7000
 R20       RC0603FR-0715KL    RESC0603                        143.4250   -78.5000  180.0000  bottom
 R21       RC0603FR-0710KL    RESC0603                        139.2250   -78.5000  180.0000  bottom
 U1        DRV8825            SOP65P970X440X120-28NT518X310   152.0000   -82.0000  180.0000  bottom
-U3        EFM8BB10F2G        QFN50P300X300X75-20NT170X170    143.9250   -82.6500    0.0000  bottom
+U3        EFM8BB10F8G        QFN50P300X300X75-20NT170X170    143.9250   -82.6500    0.0000  bottom
 ## End
