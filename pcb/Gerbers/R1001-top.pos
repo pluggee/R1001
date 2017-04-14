@@ -1,13 +1,14 @@
-### Module positions - created on Wed Apr 12 13:40:55 2017 ###
+### Module positions - created on Fri Apr 14 13:42:12 2017 ###
 ### Printed by Pcbnew version kicad 4.0.6-e0-6349~53~ubuntu14.04.1
 ## Unit = mm, Angle = deg.
 ## Side : top
 # Ref     Val                Package                    PosX       PosY       Rot  Side
 C12       CC0603KRX7R9BB104  CAPC0603               155.1250   -79.3000   90.0000  top
-C14       CC0603KRX5R6BB105  CAPC0603               148.0250   -88.5000  270.0000  top
+C14       CC0603KRX5R6BB105  CAPC0603               147.0000   -88.5000  270.0000  top
+C112      CC0603KRX5R6BB105  CAPC0603               149.4000   -85.9000   90.0000  top
 R1        RC0603FR-0710KL    RESC0603               144.6250   -80.1000  270.0000  top
 R3        RC0603FR-071ML     RESC0603               157.6250   -79.3000   90.0000  top
-R4        RC0603FR-0710KL    RESC0603               133.5250   -72.1000  270.0000  top
+R4        RC0603FR-072K8L    RESC0603               133.0000   -72.1000  270.0000  top
 R6        RC0603FR-0710KL    RESC0603               142.9250   -79.5000  270.0000  top
 R7        RC0603FR-0710KL    RESC0603               144.1250   -75.7000    0.0000  top
 R8        RC0603FR-071KL     RESC0603               138.6250   -91.7000  270.0000  top
@@ -20,6 +21,8 @@ R15       ERJ-8CWFR050V      RESC1206               157.3250   -89.5000   90.000
 R16       RC0603FR-0710KL    RESC0603               139.8250   -84.8000    0.0000  top
 R17       RC0603FR-0710KL    RESC0603               139.8250   -83.1000    0.0000  top
 R18       RC0603FR-072K8L    RESC0603               151.4250   -88.7000   90.0000  top
+R120      RC0603FR-07100KL   RESC0603               149.4000   -88.7000   90.0000  top
+R121      RC0603FR-07100KL   RESC0603               134.9000   -74.8000    0.0000  top
 U2        74LS157            SOP65P620X530X200-16   131.8250   -80.4000    0.0000  top
 U4        ZXCT1107           SOT190P290X130X100-3   154.0250   -89.5000   90.0000  top
 ## End
