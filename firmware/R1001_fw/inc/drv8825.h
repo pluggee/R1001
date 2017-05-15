@@ -17,5 +17,6 @@ void SetSteppingMode (void);
 void SetDriveCurrent (void);
 void RefreshMCTL (void);
 void RefreshMSTAT (void);
+void measVDD(void);
 
 #endif /* DRV8825_H_ */
