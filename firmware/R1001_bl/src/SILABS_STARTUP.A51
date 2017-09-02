@@ -29,19 +29,19 @@ $NOMOD51
 ;     <i>       The IDATA space overlaps physically the DATA and BIT areas.
 IDATALEN        EQU     80H
 ;
-; <o> XDATASTART: XDATA memory start address <0x0-0xFFFF> 
+; <o> XDATASTART: XDATA memory start address <0x0-0xFFFF>
 ;     <i> The absolute start address of XDATA memory
-XDATASTART      EQU     0     
+XDATASTART      EQU     0
 ;
-; <o> XDATALEN: XDATA memory size <0x0-0xFFFF> 
+; <o> XDATALEN: XDATA memory size <0x0-0xFFFF>
 ;     <i> The length of XDATA memory in bytes.
-XDATALEN        EQU     0      
+XDATALEN        EQU     0
 ;
-; <o> PDATASTART: PDATA memory start address <0x0-0xFFFF> 
+; <o> PDATASTART: PDATA memory start address <0x0-0xFFFF>
 ;     <i> The absolute start address of PDATA memory
 PDATASTART      EQU     0H
 ;
-; <o> PDATALEN: PDATA memory size <0x0-0xFF> 
+; <o> PDATALEN: PDATA memory size <0x0-0xFF>
 ;     <i> The length of PDATA memory in bytes.
 PDATALEN        EQU     0H
 ;
@@ -59,26 +59,26 @@ PDATALEN        EQU     0H
 IBPSTACK        EQU     0       ; set to 1 if small reentrant is used.
 ;  <o> IBPSTACKTOP: End address of SMALL model stack <0x0-0xFF>
 ;     <i> Set the top of the stack to the highest location.
-IBPSTACKTOP     EQU     0xFF +1     ; default 0FFH+1  
+IBPSTACKTOP     EQU     0xFF +1     ; default 0FFH+1
 ; </h>
 ;
-; <h> Stack Space for reentrant functions in the LARGE model.      
+; <h> Stack Space for reentrant functions in the LARGE model.
 ;  <q> XBPSTACK: Enable LARGE model reentrant stack
 ;     <i> Stack space for reentrant functions in the LARGE model.
 XBPSTACK        EQU     0       ; set to 1 if large reentrant is used.
 ;  <o> XBPSTACKTOP: End address of LARGE model stack <0x0-0xFFFF>
 ;     <i> Set the top of the stack to the highest location.
-XBPSTACKTOP     EQU     0xFFFF +1   ; default 0FFFFH+1 
+XBPSTACKTOP     EQU     0xFFFF +1   ; default 0FFFFH+1
 ; </h>
 ;
-; <h> Stack Space for reentrant functions in the COMPACT model.    
+; <h> Stack Space for reentrant functions in the COMPACT model.
 ;  <q> PBPSTACK: Enable COMPACT model reentrant stack
 ;     <i> Stack space for reentrant functions in the COMPACT model.
 PBPSTACK        EQU     0       ; set to 1 if compact reentrant is used.
 ;
 ;   <o> PBPSTACKTOP: End address of COMPACT model stack <0x0-0xFFFF>
 ;     <i> Set the top of the stack to the highest location.
-PBPSTACKTOP     EQU     0xFF +1     ; default 0FFH+1  
+PBPSTACKTOP     EQU     0xFF +1     ; default 0FFH+1
 ; </h>
 ;</h>
 ;------------------------------------------------------------------------------
@@ -86,29 +86,103 @@ PBPSTACKTOP     EQU     0xFF +1     ; default 0FFH+1
 ;  Memory Page for Using the Compact Model with 64 KByte xdata RAM
 ;  <e>Compact Model Page Definition
 ;
-;  <i>Define the XDATA page used for PDATA variables. 
+;  <i>Define the XDATA page used for PDATA variables.
 ;  <i>PPAGE must conform with the PPAGE set in the linker invocation.
 ;
 ; Enable pdata memory page initalization
 PPAGEENABLE     EQU     0       ; set to 1 if pdata object are used.
 ;
-; <o> PPAGE number <0x0-0xFF> 
+; <o> PPAGE number <0x0-0xFF>
 ; <i> uppermost 256-byte address of the page used for PDATA variables.
 PPAGE           EQU     0
 ;
-; <o> SFR address which supplies uppermost address byte <0x0-0xFF> 
+; <o> SFR address which supplies uppermost address byte <0x0-0xFF>
 ; <i> most 8051 variants use P2 as uppermost address byte
 PPAGE_SFR       DATA    0A0H
 ;
 ; </e>
 ;------------------------------------------------------------------------------
 
-; Standard SFR Symbols 
+; Standard SFR Symbols
 ACC     DATA    0E0H
 B       DATA    0F0H
 SP      DATA    81H
 DPL     DATA    82H
 DPH     DATA    83H
+
+;******************************************************************************
+; Begin custom code for SMB_BL - Target_BL_FW ->
+;******************************************************************************
+
+;------------------------------------------------------------------------------
+; Redirects the HW interrupt vectors to a jump table starting at INTVEC_TABLE.
+; This table will always be part of the App_FW space and can be modified by the
+; bootloader's ERASE and WRITE commands.
+
+;HW Interrupt Entries
+HW_INTVEC_TABLE       EQU 0003h     ;HW Interrupt vector table starts here
+HW_INTVEC_SEPARATION  EQU 8         ;HW Interrupt vector separation is 8 Bytes
+
+;Redirected Interrupt Entries
+;Changes to INTVEC_TABLE location should be mirrored in:
+;   BL FW's USB_BL_Defs.h (APP_START_PAGE)
+;   App FW's STARTUP.A51, Compiler and Linker command lines
+PUBLIC START_APPLICATION            ;The entry point (relocated reset vector)
+START_APPLICATION     EQU  0400h    ;for the application FW project
+
+INTVEC_TABLE          EQU  START_APPLICATION+3  ;Interrupt vector table starts here
+INTVEC_SEPARATION     EQU  3        ;Interrupt vector separation is 3 Bytes
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 0)  ;03h (Intr. 00)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 0)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 1)  ;0Bh (Intr. 01)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 1)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 2)  ;13h (Intr. 02)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 2)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 3)  ;1Bh (Intr. 03)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 3)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 4)  ;23h (Intr. 04)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 4)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 5)  ;2Bh (Intr. 05)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 5)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 6)  ;33h (Intr. 06)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 6)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 7)  ;3Bh (Intr. 07)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 7)
+
+;      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 8)  ;43h (Intr. 08)
+;      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 8)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 9)  ;4Bh (Intr. 09)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 9)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 10) ;53h (Intr. 10)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 10)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 11) ;5Bh (Intr. 11)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 11)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 12) ;63h (Intr. 12)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 12)
+
+;      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 13) ;6Bh (Intr. 13)
+;      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 13)
+
+      CSEG  AT HW_INTVEC_TABLE + (HW_INTVEC_SEPARATION * 14) ;73h (Intr. 14)
+      AJMP  INTVEC_TABLE + (INTVEC_SEPARATION * 14)
+
+
+;******************************************************************************
+;End of custom code <-
+;Unmodified Keil STARTUP.A51 code continues below ->
+;******************************************************************************
 
                 NAME    ?C_STARTUP
 
@@ -122,9 +196,7 @@ DPH     DATA    83H
                 EXTRN CODE (?C_START)
                 PUBLIC  ?C_STARTUP
 
-                ;CSEG    AT      0
-                CSEG    AT      0400H
-
+                CSEG    AT      0
 ?C_STARTUP:     LJMP    STARTUP1
 
                 RSEG    ?C_C51STARTUP
@@ -194,7 +266,7 @@ ENDIF
 ; This code is required if you use L51_BANK.A51 with Banking Mode 4
 ;<h> Code Banking
 ; <q> Select Bank 0 for L51_BANK.A51 Mode 4
-$IF (USE_BANKING = 1)      
+$IF (USE_BANKING = 1)
 ;     <i> Initialize bank mechanism to code bank 0 when using L51_BANK.A51 with Banking Mode 4.
 EXTRN CODE (?B_SWITCH0)
                 CALL    ?B_SWITCH0      ; init bank mechanism to code bank 0

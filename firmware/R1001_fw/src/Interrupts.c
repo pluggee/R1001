@@ -12,27 +12,25 @@
 #include "i2c.h"
 #include "global.h"
 #include "math.h"
-
-
-//extern uint32_t ADC_SUM;               // Accumulates the ADC samples
-//extern bit CONV_COMPLETE;              // ADC accumulated result ready flag
-
-uint32_t ADC_SUM;                           // Accumulates the ADC samples
-//bit CONV_COMPLETE;                        // ADC accumulated result ready flag
-char temp_val;
-char TSUM[4];                               // bytes of ADC SUM
-char TADCH, TADCL;                          // bytes for single ADC read
+#include "InfoBlock.h"
+#include "imon.h"
 
 char writelen = 0;
 
-// temperature sensor constants
-#define DS_SLOPE				0.00285		// slope from datasheet in V/C
-#define DS_OFFSET				0.757		// offset from datasheet in V
+// LSBSize = 1.65V/(2^12) = 0.000402V
 
-#define SAMPLING_2N             4			// number of samples (power of 2)
-#define SAMPLING_NUMBER         16			// = 2^SAMPLING_2N
-#define TSLOPE                	113			// slope LSB's/C = round(SAMPLING_NUMBER*DS_SLOPE/LSBSize)
-#define TOFFSET                 30067		// Offset in LSB's = round(SAMPLING_NUMBER*DS_OFFSET/LSBSize)
+// For 16 samples
+//#define SAMPLING_2N             4			// number of samples (power of 2)
+//#define SAMPLING_NUMBER         16			// = 2^SAMPLING_2N
+//#define TSLOPE                	113			// slope LSB's/C = round(SAMPLING_NUMBER*DS_SLOPE/LSBSize)
+//#define TOFFSET                 30067		// Offset in LSB's = round(SAMPLING_NUMBER*DS_OFFSET/LSBSize)
+
+// For a single sample
+//#define SAMPLING_2N             0           // number of samples (power of 2)
+//#define SAMPLING_NUMBER         1          // = 2^SAMPLING_2N
+//#define TSLOPE                  7         // slope LSB's/C = round(SAMPLING_NUMBER*DS_SLOPE/LSBSize)
+//#define TOFFSET                 30067       // Offset in LSB's = round(SAMPLING_NUMBER*DS_OFFSET/LSBSize)
+
 
 // pin declarations
 //SBIT(PWMREF, SFR_P1, 4);            						// Driver mode2 pin
@@ -59,144 +57,206 @@ char writelen = 0;
 //-----------------------------------------------------------------------------
 SI_INTERRUPT (SMBUS0_ISR, SMBUS0_IRQn)
 {
-	static uint8_t sent_byte_counter;
-	static uint8_t rec_byte_counter;
+    static uint8_t sent_byte_counter;
+    static uint8_t rec_byte_counter;
 
-	if (SMB0CN0_ARBLOST == 0)
-	{
-		switch (SMB0CN0 & 0xF0)          // Decode the SMBus status vector
-		{
-			// Slave Receiver: Start+Slave Address received
-			case SMB_SRADD:
-                SMB0CN0_STA = 0;// Clear SMB0CN0_STA bit
+    if (SMB0CN0_ARBLOST == 0)
+    {
+        switch (SMB0CN0 & 0xF0)          // Decode the SMBus status vector
+        {
+            // Slave Receiver: Start+Slave Address received
+            case SMB_SRADD:
+            SMB0CN0_STA = 0;// Clear SMB0CN0_STA bit
 
-                sent_byte_counter = 1;// Reinitialize the data counters
-                rec_byte_counter = 1;
+            sent_byte_counter = 1;// Reinitialize the data counters
+            rec_byte_counter = 1;
 
-                if ((SMB0DAT & 0x01) == READ)// If the transfer is a master READ,
+            if ((SMB0DAT & 0x01) == READ)// If the transfer is a master READ,
+            {
+                // Prepare outgoing byte
+                SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
+                sent_byte_counter++;
+            }
+
+            // need to add an acknowledge here????
+            // added an ack here
+            SMB0CN0_ACK = 1;// send an acknowledge that address and command are received
+
+            break;
+
+            // Slave Receiver: Data received
+            case SMB_SRDB:
+            if (rec_byte_counter < NUM_BYTES_WR)
+            {
+                // Store incoming data
+                SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
+                rec_byte_counter++;
+                SMB0CN0_ACK = 1;// SMB0CN0_ACK received data
+            }
+            else
+            {
+                // Store incoming data
+                SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
+                DATA_READY = 1;// Indicate new data fully received
+            }
+            writelen++;                 // increment global write length counter
+            break;
+
+            // Slave Receiver: Stop received while either a Slave Receiver or
+            // Slave Transmitter
+            case SMB_SRSTO:
+            SMB0CN0_STO = 0;// SMB0CN0_STO must be cleared by software when
+                            // a STOP is detected as a slave
+
+            DATA_READY = 1;// Indicates end of transmission
+            break;
+
+            // Slave Transmitter: Data byte transmitted
+            case SMB_STDB:
+            if (SMB0CN0_ACK == 1)// If Master SMB0CN0_ACK's, send the next byte
+            {
+                if (sent_byte_counter <= NUM_BYTES_RD)
                 {
-                    // Prepare outgoing byte
+                    // Prepare next outgoing byte
                     SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
                     sent_byte_counter++;
                 }
+            }                          // Otherwise, do nothing
+            break;
 
-                // need to add an acknowledge here????
-                // added an ack here
-                SMB0CN0_ACK = 1;// send an acknowledge that address and command are received
+            // Slave Transmitter: Arbitration lost, Stop detected
+            //
+            // This state will only be entered on a bus error condition.
+            // In normal operation, the slave is no longer sending data or has
+            // data pending when a STOP is received from the master, so the SMB0CN0_TXMODE
+            // bit is cleared and the slave goes to the SRSTO state.
+            case SMB_STSTO:
+            SMB0CN0_STO = 0;// SMB0CN0_STO must be cleared by software when
+                            // a STOP is detected as a slave
+            break;
 
-                break;
-
-			// Slave Receiver: Data received
-			case SMB_SRDB:
-                if (rec_byte_counter < NUM_BYTES_WR)
-                {
-                    // Store incoming data
-                    SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
-                    rec_byte_counter++;
-                    SMB0CN0_ACK = 1;         // SMB0CN0_ACK received data
-                }
-                else
-                {
-                    // Store incoming data
-                    SMB_DATA_IN[rec_byte_counter-1] = SMB0DAT;
-                    DATA_READY = 1;         // Indicate new data fully received
-                }
-                writelen++;                 // increment global write length counter
-                break;
-
-			// Slave Receiver: Stop received while either a Slave Receiver or
-			// Slave Transmitter
-			case SMB_SRSTO:
-                SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
-                                            // a STOP is detected as a slave
-
-                DATA_READY = 1;             // Indicates end of transmission
-                break;
-
-			// Slave Transmitter: Data byte transmitted
-			case SMB_STDB:
-                if (SMB0CN0_ACK == 1)// If Master SMB0CN0_ACK's, send the next byte
-                {
-                    if (sent_byte_counter <= NUM_BYTES_RD)
-                    {
-                        // Prepare next outgoing byte
-                        SMB0DAT = SMB_DATA_OUT[sent_byte_counter-1];
-                        sent_byte_counter++;
-                    }
-                }                          // Otherwise, do nothing
-                break;
-
-			// Slave Transmitter: Arbitration lost, Stop detected
-			//
-			// This state will only be entered on a bus error condition.
-			// In normal operation, the slave is no longer sending data or has
-			// data pending when a STOP is received from the master, so the SMB0CN0_TXMODE
-			// bit is cleared and the slave goes to the SRSTO state.
-			case SMB_STSTO:
-                SMB0CN0_STO = 0;            // SMB0CN0_STO must be cleared by software when
-                                            // a STOP is detected as a slave
-                break;
-
-          // Default: all other cases undefined
+                            // Default: all other cases undefined
             default:
-                SMB0CF &= ~0x80;// Reset communication
-                SMB0CF |= 0x80;
-                SMB0CN0_STA = 0;
-                SMB0CN0_STO = 0;
-                SMB0CN0_ACK = 1;
+            SMB0CF &= ~0x80;// Reset communication
+            SMB0CF |= 0x80;
+            SMB0CN0_STA = 0;
+            SMB0CN0_STO = 0;
+            SMB0CN0_ACK = 1;
+            break;
+        }
+    }
+    // SMB0CN0_ARBLOST = 1, Abort failed transfer
+    else
+    {
+        SMB0CN0_STA = 0;
+        SMB0CN0_STO = 0;
+        SMB0CN0_ACK = 1;
+    }
+
+    SMB0CN0_SI = 0;                     // Clear SMBus interrupt flag
+
+    if (DATA_READY == 1)
+    {
+        DATA_READY = 0;
+
+        // now we look at the contents of the data in the buffer and act accordingly
+        switch(SMB_DATA_IN[0]){
+            case TGT_CMD_RESET_MCU:
+                // soft reset MCU
+                RSTSRC = 0x12;                  // Initiate software reset with vdd monitor enabled
                 break;
-		}
-	}
-	// SMB0CN0_ARBLOST = 1, Abort failed transfer
-	else
-	{
-		SMB0CN0_STA = 0;
-		SMB0CN0_STO = 0;
-		SMB0CN0_ACK = 1;
-	}
+            case TGT_CMD_PLID:
+                // Return platform ID
+                // Prepare buffer with ID string
+                SMB_DATA_OUT[0] = PLATFORM;     // Platform ID
+                break;
+            case TGT_CMD_DVID:
+                // Return device ID
+                // Prepare buffer with ID string
+                SMB_DATA_OUT[0] = DEVID;        // device ID
+                break;
+            case TGT_CMD_FWID:
+                // Return firmware VER
+                // Prepare buffer with ID string
+                SMB_DATA_OUT[0] = APP_FW_VERSION_LOW;           // firmware version - low byte
+                SMB_DATA_OUT[1] = APP_FW_VERSION_HIGH;          // firmware version - high byte
+                break;
+            case TGT_CMD_TMP:
+                // This reads out the temperature value
+                SMB_DATA_OUT[0] = temp_val;
+                break;
+            case TGT_CMD_VDD:
+                SMB_DATA_OUT[0] = vdd_val & 0xff;               // lower byte
+                SMB_DATA_OUT[1] = (vdd_val >> 8) & 0xff;        // upper byte
+                break;
+            case TGT_CMD_BLSTAT:
+                SMB_DATA_OUT[0] = 0x00;                         // indicating application mode
+                break;
+            case TGT_CMD_STP:
+                // Set stepper motor stepping resolution
+                // This is a command to change stepping resolution, set it to the value stored in SMB_DATA_IN[1]
+                if (writelen > 1){
+                    StepRes = SMB_DATA_IN[1];       // store new value to internal variable
+                    if ((StepRes > 5) || (StepRes < 0)) {       // Limit step res to the proper range
+                        StepRes = 5;
+                    }
+                    flag_setstep = 1;               // flag to apply new stepping resolution setting
+                }
+                SMB_DATA_OUT[0] = StepRes;
+                // limit the range of StepRes
+                break;
+            case TGT_CMD_IDRVL:
+                // here we check if writing to IDRVL and IDRVH
+                if (writelen == 2){
+                    // only write IDRVL
+                    IDRVL = SMB_DATA_IN[1];         // store new value to internal variable
+                    flag_setcurr = 1;               // flag to execute set driver current
+                }
+                else if (writelen > 2){
+                    // write IDRVL & IDRVH
+                    IDRVL = SMB_DATA_IN[1];         // store new value to internal variable
+                    IDRVH = SMB_DATA_IN[2];         // store new value to internal variable
+                    flag_setcurr = 1;               // flag to execute set driver current
+                }
 
-	SMB0CN0_SI = 0;                     // Clear SMBus interrupt flag
+                // Store IDRVL/H values into output buffer
+                SMB_DATA_OUT[0] = IDRVL;
+                SMB_DATA_OUT[1] = IDRVH;
+                break;
+            case TGT_CMD_IDRVH:
+                // here we check if writing to IDRVH
+                if (writelen > 1){
+                    // only write IDRVH
+                    IDRVH = SMB_DATA_IN[1];         // store new value to internal variable
+                    flag_setcurr = 1;               // flag to execute set driver current
+                }
+                // Store IDRVH value in output buffer
+                SMB_DATA_OUT[0] = IDRVH;
+                break;
+            case TGT_CMD_MCTL:
+                // Stepper driver control register
+                if (writelen > 1){
+                    // parse input and execute values
+                    MCTL = SMB_DATA_IN[1];          // store new value to internal variable
+                    flag_refmctl = 1;               // flag to refresh MCTL reg
+                }
+                SMB_DATA_OUT[0] = MCTL;             // place refreshed MCTL value in output buffer
+                break;
+            case TGT_CMD_MSTAT:
+                SMB_DATA_OUT[0] = MSTAT;            // place refreshed MCTL value in output buffer
+                break;
+            case TGT_CMD_IDRIVER:
+                // push measure driver current to output buffer
+                SMB_DATA_OUT[0] = idrive.c[0];
+                SMB_DATA_OUT[1] = idrive.c[1];
+                SMB_DATA_OUT[2] = idrive.c[2];
+                SMB_DATA_OUT[3] = idrive.c[3];
+                break;
+            default:
+                break;
+        }
+        writelen = 0;                           // reset writelen counter
+   }
 }
 
-//-----------------------------------------------------------------------------
-// ADC0EOC_ISR
-//-----------------------------------------------------------------------------
-//
-// ADC0EOC ISR Content goes here. Remember to clear flag bits:
-// ADC0CN0::ADINT (Conversion Complete Interrupt Flag)
-//
-//-----------------------------------------------------------------------------
-SI_INTERRUPT (ADC0EOC_ISR, ADC0EOC_IRQn)
-{
-	   static uint32_t accumulator = 0;         // Accumulator for averaging
-	   static uint16_t measurements = SAMPLING_NUMBER; // Measurement counter
-
-	   uint32_t temp_adc;						// ADC reading of temperature
-
-	   ADC0CN0_ADINT = 0;                       // Clear ADC0 conv. complete flag
-
-	   // Checks if obtained the necessary number of samples
-	   if(measurements == 0)
-	   {
-	      ADC_SUM = accumulator;           // Copy total into ADC_SUM
-	      measurements = SAMPLING_NUMBER;  // Reset counter
-	      accumulator = 0;                 // Reset accumulator
-
-	      // conversion is complete, perform calculation and store it in memory
-	      temp_adc = ((ADC_SUM - TOFFSET)/TSLOPE);
-	      temp_val = (char) (temp_adc);	   // convert to 8-bit
-
-	      TSUM[0] = ADC_SUM & 0xff;
-	      TSUM[1] = (ADC_SUM >> 8) & 0xff;
-	      TSUM[2] = (ADC_SUM >> 16) & 0xff;
-	      TSUM[3] = (ADC_SUM >> 24) & 0xff;
-	   }
-	   else
-	   {
-	      TADCL = ADC0 & 0xff;				   // store higher byte
-	      TADCH = (ADC0 >> 8) & 0xff;		   // store lower byte
-		  accumulator += ADC0 & 0x0fff;       // get 12 bit value (only)
-	      measurements--;
-	   }
-}
 

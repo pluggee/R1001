@@ -8,20 +8,12 @@
 #include "drv8825.h"
 #include "i2c.h"
 #include "global.h"
+#include "InfoBlock.h"
+#include "delay.h"
+#include "imon.h"
 
 // $[Generated Includes]
 // [Generated Includes]$
-
-//-----------------------------------------------------------------------------
-// Global Constants
-//-----------------------------------------------------------------------------
-#define PLATFORM    0x01        // platform ID, 0x01 for R1000A
-#define DEVID       0x01        // device ID, 0x01 for R1001 stepper motor driver
-#define FWVER       0x01        // firmware build
-//-----------------------------------------------------------------------------
-// Global Variables
-//-----------------------------------------------------------------------------
-
 
 // Global holder for SMBus data.
 // All receive data is written here
@@ -33,15 +25,31 @@ uint8_t SMB_DATA_IN[NUM_BYTES_WR];
 // NUM_BYTES_RD used because an SMBus read is Slave->Master
 uint8_t SMB_DATA_OUT[NUM_BYTES_RD];
 
-bit DATA_READY = 0;                    // Set to '1' by the SMBus ISR
-                                       // when a new data byte has been
-                                       // received.
+// Global flags
+bit flag_setstep;               // trigger SetSteppingMode()
+bit flag_setcurr;               // trigger SetDriveCurrent()
+bit flag_refmctl;               // trigger RefreshMCTL()
+
+bit DATA_READY = 0;             // Set to '1' by the SMBus ISR
+                                // when a new data byte has been
+                                // received.
+
+
+unsigned short vdd_val;         // value of VDD from 12-bit ADC measurement @ 2.4V (0.5X)
+
+// internal temperature sensor variables
+
+char temp_val;                  // this is where we store the temperature
+
+char i;                         // for loop variable
 
 // Driver Initialization function
 void Init (void)
 {
-	drv8825_init();                     // Initialize driver
-	SetI2CSlaveAddress();               // Initialize I2C slave address
+//    Timer2Count = 0;                    // initialize timer2 count
+//    P2MDOUT = P2MDOUT_B0__PUSH_PULL;    // set C2D/P2.0 as a push-pull output
+    drv8825_init();                         // Initialize driver
+	SetI2CSlaveAddress();                   // Initialize I2C slave address
 }
 
 //-----------------------------------------------------------------------------
@@ -51,93 +59,60 @@ int main (void)
 {
 	// Call hardware initialization routine
 	enter_DefaultMode_from_RESET();
-
 	Init();				                // Initialize system
 
 	while (1) 
    {
-		while (!DATA_READY);             // New SMBus data received? gets out of the loop with a command transfer is complete
-		DATA_READY = 0;
+	    RefreshMSTAT();                             // always refresh
 
-		// now we look at the contents of the data in the buffer and act accordingly
-		switch(SMB_DATA_IN[0]){
-		case 0x01:
-			// Return platform ID
-			// Prepare buffer with ID string
-			SMB_DATA_OUT[0] = PLATFORM;     // Platform ID
-			break;
-		case 0x02:
-			// Return device ID
-			// Prepare buffer with ID string
-			SMB_DATA_OUT[0] = DEVID;        // device ID
-			break;
-		case 0x03:
-			// Return firmware VER
-			// Prepare buffer with ID string
-			SMB_DATA_OUT[0] = FWVER;        // firmware version
-			break;
-		case 0x10:
-            // This reads out the temperature value
-            SMB_DATA_OUT[0] = temp_val;
-            break;
-		case 0x20:
-			// Set stepper motor stepping resolution
-			// This is a command to change stepping resolution, set it to the value stored in SMB_DATA_IN[1]
-		    if (writelen > 1){
-			    StepRes = SMB_DATA_IN[1];       // store new value to internal variable
-			    if ((StepRes > 5) || (StepRes < 0)) {       // Limit step res to the proper range
-                    StepRes = 5;
-                }
-			    SetSteppingMode();              // apply new stepping resolution setting
-			}
-		    SMB_DATA_OUT[0] = StepRes;
-		    // limit the range of StepRes
-			break;
-		case 0x21:
-		    // here we check if writing to IDRVL and IDRVH
-		    if (writelen == 2){
-                // only write IDRVL
-		        IDRVL = SMB_DATA_IN[1];         // store new value to internal variable
-		        SetDriveCurrent();              // apply new stepping driver current
-            }
-		    else if (writelen > 2){
-                // write IDRVL & IDRVH
-                IDRVL = SMB_DATA_IN[1];         // store new value to internal variable
-                IDRVH = SMB_DATA_IN[2];         // store new value to internal variable
-                SetDriveCurrent();              // apply new stepping driver current
-            }
+	    if (flag_refmctl){                          // check and execute RefreshMCTL()
+	        flag_refmctl = 0;                       // clear flag
+	        RefreshMCTL();
+	    }
 
-		    // Store IDRVL/H values into output buffer
-		    SMB_DATA_OUT[0] = IDRVL;
-			SMB_DATA_OUT[1] = IDRVH;
-			break;
-		case 0x22:
-            // here we check if writing to IDRVH
-            if (writelen > 1){
-                // only write IDRVH
-                IDRVH = SMB_DATA_IN[1];         // store new value to internal variable
-                SetDriveCurrent();              // apply new stepping driver current
-            }
-            // Store IDRVH value in output buffer
-            SMB_DATA_OUT[0] = IDRVH;
-			break;
-		case 0x23:
-		    // Stepper driver control register
-		    if (writelen > 1){
-                // parse input and execute values
-                MCTL = SMB_DATA_IN[1];          // store new value to internal variable
-                RefreshMCTL();                  // apply new stepping driver current
-            }
-		    SMB_DATA_OUT[0] = MCTL;             // place refreshed MCTL value in output buffer
-		    break;
-		case 0x24:
-		    // refresh status register before pushing it out
-		    RefreshMSTAT();
-            SMB_DATA_OUT[0] = MSTAT;             // place refreshed MCTL value in output buffer
-            break;
-		default:
-			break;
-		}
-		writelen = 0;                           // reset writelen counter
-   }                             
+	    if (flag_setcurr){
+	        flag_setcurr = 0;                       // clear flag
+            SetDriveCurrent();                      // apply new stepping driver current
+	    }
+
+	    if (flag_setstep){
+	        flag_setstep = 0;                       // clear flag
+	        SetSteppingMode();                      // apply new stepping resolution setting
+	    }
+
+        // perform temperature and driver current measurement here
+	    measTemp();
+        measIdriver();
+
+   }
+}
+
+void measTemp(void){
+    uint32_t ADC_SUM;               // Accumulates the ADC samples
+
+    // measure temperature
+    // set analog input to temperature sensor
+
+    // Set voltage reference to 1.65V internal reference
+    REF0CN = REF0CN_TEMPE__TEMP_ENABLED | REF0CN_GNDSL__GND_PIN
+                | REF0CN_IREFLVL__1P65 | REF0CN_REFSL__INTERNAL_VREF;
+
+    // Select ADC settings with gain = 1X
+    ADC0CF = (0x03 << ADC0CF_ADSC__SHIFT) | ADC0CF_AD8BE__NORMAL
+                | ADC0CF_ADGN__GAIN_1 | ADC0CF_ADTM__TRACK_NORMAL;
+
+    // Select TEMPERATURE INPUT
+    ADC0MX = ADC0MX_ADC0MX__TEMP;
+
+    Delay_ms(5);                                // delay to settle reference and mux switch
+
+    ADC_SUM = 0;                                // reset accumulator
+    for (i=0; i<SAMPLING_NUMBER; i++){
+        ADC0CN0_ADBUSY = 1;                     // start ADC conversion
+        while (!ADC0CN0_ADINT);                 // wait until conversion is complete
+        ADC0CN0_ADINT = 0;                      // clear ADC interrupt flag
+        ADC_SUM += ADC0 & 0x0fff;               // accumulate value
+    }
+
+    temp_val = (char) ((ADC_SUM - TOFFSET)/TSLOPE);    // calculate and store temperature in register
 }

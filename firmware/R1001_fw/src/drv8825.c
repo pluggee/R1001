@@ -10,6 +10,7 @@
 #include "compiler_defs.h"
 #include <intrins.h>
 #include "global.h"
+#include "delay.h"
 
 // This source includes all control functions for DRV8825 chip
 
@@ -25,7 +26,7 @@ char StepRes;
 //-----------------------------------------------------------------------------
 // Output pins
 SBIT(DRESETB, SFR_P0, 5);            					// Driver reset pin
-SBIT(DSLEEPB, SFR_P0, 6);            					// Driver sleep pin
+//SBIT(DSLEEPB, SFR_P0, 6);            					// Driver sleep pin
 SBIT(DECAY, SFR_P1, 0);            						// Driver decay pin
 SBIT(MODE0, SFR_P1, 1);            						// Driver mode0 pin
 SBIT(MODE1, SFR_P1, 2);            						// Driver mode1 pin
@@ -49,15 +50,15 @@ void SetDecayFast (char val)
 
 void ResetDriver (void)
 {
-	unsigned int i; 	    // for loop variable
+//	unsigned int i; 	    // for loop variable
 	// Reset pulse for the motor driver
 	DRESETB = 0;			// set resetb to 0, get driver into reset
-	for (i=0; i<10000; i++)
-	{
-		_nop_ ();			// assembly NOP
-	}
+//	for (i=0; i<10000; i++)
+//	{
+//		_nop_ ();			// assembly NOP
+//	}
+	Delay_ms(2);            // 2ms delay
 	DRESETB = 1;			// set resetb to 1, get driver out of reset
-//	DSLEEPB = 1;			// get driver out of sleep mode
 }
 
 void SetSteppingMode (void)
@@ -104,18 +105,31 @@ void SetDriveCurrent (void)
 {
     // This function sets the drive current based on that values in IL and IH
     unsigned long drivecurrent;
+    float pwmlsb;           // calculate PWM LSB value in volts
+    float pwmval;    // calculate PWM value
     drivecurrent = (unsigned long)IDRVH * 256 + (unsigned long)IDRVL;
+
+
+
     if (drivecurrent > 2000){
         // limit drive current to 2A (2000mA)
         drivecurrent = 2000;
         IDRVH = 0x07;               // also update internal IDRVH register
         IDRVL = 0xD0;               // also update internal IDRVL register
     }
+//
+
+    measVDD();                                              // first measure 3.3V VDD
+
+    pwmlsb = (3.3*(float)vdd_val/2816.0)/256.0;           // calculate PWM LSB value in volts
+    pwmval = (1.25*((float)drivecurrent)/1000)/pwmlsb;    // calculate PWM value
+    PCA0CPH0 = (char)pwmval;                                    // round and send to PWM output
     // current = 2A when vout = 2.5V
     // VDD = 3.3V, so max pwm value is 194
 
 //    PCA0CPH0 = (char)((198*drivecurrent) >> 11);                   // set PWMVREF value, ideal 3.3V calculated value
-    PCA0CPH0 = (char)((202*drivecurrent) >> 11);                   // set PWMVREF value, compensated after measurement
+//    PCA0CPH0 = (char)((202*drivecurrent) >> 11);                   // set PWMVREF value, compensated after measurement
+
 }
 
 void RefreshMCTL (void)
@@ -129,15 +143,15 @@ void RefreshMCTL (void)
         MCTL &= 0x7F;
     }
 
-    // set sleep pin
-    if ((MCTL & 0x04) == 0){
-        // set sleep# pin to 1
-        DSLEEPB = 1;
-    }
-    else{
-        // set sleep# pin to 0
-        DSLEEPB = 0;
-    }
+//    // set sleep pin
+//    if ((MCTL & 0x04) == 0){
+//        // set sleep# pin to 1
+//        DSLEEPB = 1;
+//    }
+//    else{
+//        // set sleep# pin to 0
+//        DSLEEPB = 0;
+//    }
 
     // look at decay pins
     if ((MCTL & 0x02) == 1){
@@ -169,8 +183,8 @@ void RefreshMCTL (void)
         }
     }
 
-    // mask MCTL and set bits 6:3 to 0
-    MCTL &= 87;
+    // mask MCTL and set bits 6:2 to 0
+    MCTL &= 0x83;
 
 }
 
@@ -203,5 +217,29 @@ void drv8825_init(void)
     // initialize drive current
     IDRVH = IDRVH_default;
     IDRVL = IDRVL_default;
+
     SetDriveCurrent();
+}
+
+void measVDD(void){
+    // this function measures 3.3V VDD accurately to compensate
+    // for driver current PWM
+
+    // measure VDD
+
+    // Set voltage reference to 2.4V internal reference
+    REF0CN = REF0CN_TEMPE__TEMP_ENABLED | REF0CN_GNDSL__GND_PIN
+                | REF0CN_IREFLVL__2P4 | REF0CN_REFSL__INTERNAL_VREF;
+    // Select ADC input to VDD
+    ADC0MX = ADC0MX_ADC0MX__VDD;
+    // Select ADC settings with gain = 0.5X
+    ADC0CF = (0x03 << ADC0CF_ADSC__SHIFT) | ADC0CF_AD8BE__NORMAL
+                | ADC0CF_ADGN__GAIN_0P5 | ADC0CF_ADTM__TRACK_NORMAL;
+
+    Delay_ms(5);                                // delay to settle reference and mux switch
+
+    ADC0CN0_ADBUSY = 1;                         // start ADC conversion
+    while (!ADC0CN0_ADINT);                     // wait until conversion is complete
+    ADC0CN0_ADINT = 0;                          // clear ADC interrupt flag
+    vdd_val = (unsigned short) ADC0;            // Store VDD measurement in memory
 }
